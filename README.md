@@ -1,59 +1,78 @@
-# Midpoint
+# Clutch Web
 
-A web application designed to simplify meet-up planning. Midpoint helps users find activities, events, and places to meet halfway between two endpoints—ideal for friends, couples, and travelers.
+Clutch Web is the **web-based version of Clutch**, designed to simplify the experience of organizing and joining **pick-up basketball games**. Inspired by **competitive ranking systems in video games like VALORANT**, Clutch aims to help players find local basketball games effortlessly.
 
-## Table of Contents
+The **initial release** will focus on **Casual Mode**, allowing users to discover nearby games and set location preferences. A future **Competitive Mode** will introduce **stat tracking, player rankings, and advanced analytics**.
 
-- [Midpoint](#midpoint)
-  - [Table of Contents](#table-of-contents)
-  - [Trello Board](#trello-board)
-  - [Why?](#why)
-  - [Overview](#overview)
-  - [Installation](#installation)
-  - [Usage](#usage)
+---
 
-## Trello Board
+## **Table of Contents**
 
-[Trello Board Link](https://trello.com/invite/b/673f837e15428ac482480ea2/ATTI6f0320c1a156e3e6c4219eb884ede23439879BC9/midpoint-📍)
+- [Clutch Web](#clutch-web)
+  - [**Table of Contents**](#table-of-contents)
+  - [**Why?**](#why)
+  - [**Overview**](#overview)
+    - [**Key Features:**](#key-features)
+    - [**Future Enhancements:**](#future-enhancements)
+  - [**Tech Stack**](#tech-stack)
+  - [**Installation**](#installation)
+    - [**1️⃣ Clone the repository**](#1️⃣-clone-the-repository)
 
-The Trello board serves as a Kanban-style project management tool to organize and track the development of Midpoint. By categorizing tasks into stages like “To Do,” “In Progress,” and “Done,” it provides a clear visual representation of progress and priorities. Using Trello ensures that development remains focused, collaborative, and efficient, enabling smooth task delegation and accountability throughout the project lifecycle.
+---
 
-## Why?
+## **Why?**
 
-Planning meet-ups is often a challenge, especially when busy schedules and long distances are involved. Midpoint solves this by:
+Clutch was created to **merge my passion for basketball and competitive gaming**. Many players struggle to find games or improve their skills due to a lack of **structure in pick-up basketball**.
 
-- Offering curated suggestions for locations midway between two endpoints.
-- Simplifying decision-making with filters, price ranges, and a voting system.
-- Encouraging meaningful connections by saving time and effort.
+This **web-based version** aims to:
 
-Whether you’re online dating, reconnecting with friends, or planning a road trip, Midpoint makes it easier to meet halfway.
+- **Make it easier for players to find and join games nearby**.
+- **Help new players integrate into a community**.
+- **Provide a competitive layer** through rankings and stat tracking (in future updates).
 
-## Overview
+---
 
-Midpoint is designed to bridge the gap between planning and spontaneity. Users input two locations, and the app calculates a convenient midpoint, presenting tailored suggestions for activities, restaurants, and events. The voting system helps users finalize plans effortlessly.
+## **Overview**
 
-Key Features:
+Clutch Web is a **React-based web application** designed to serve as the foundation for Clutch’s features before transitioning to a full **iOS app**.
 
-- **Midpoint Suggestions**: Automatically calculate a midpoint between two endpoints.
-- **Activity Recommendations**: Find restaurants, events, or activities using APIs like Google Maps and Yelp.
-- **Customizable Filters**: Sort by price range, activity type, and more.
-- **Voting System**: Collaboratively decide on a location with ease.
-- **Re-engagement Notifications**: Get notified of trending activities and events.
+### **Key Features:**
 
-## Installation
+✅ **Casual Mode (MVP)** → Find and join pick-up games.
 
-TBA
+✅ **User Authentication** → Sign in via Google or email/password.
 
-## Usage
+✅ **Real-time Updates** → Get notifications for new games (future).
 
-Once the app is running, you can:
+✅ **Location Preferences** → Set preferred courts and playing times.
 
-1. **Input Locationse**: Add two locations (manual or GPS-based).
+### **Future Enhancements:**
 
-2. **Browse Suggestions**: Explore midpoint activities tailored to your preferences.
+🚀 **Competitive Mode** → Player ranking & stat tracking.
 
-3. **Vote**: Use the voting feature to decide on a location collaboratively.
+🚀 **AI-powered Analytics** → Automated stat tracking & insights.
 
-4. **Save Favorites**: Bookmark favorite spots for future reference.
+---
 
-5. **Get Notifications**: Stay informed about new activities and events.
+## **Tech Stack**
+
+| Layer              | Technology                                      |
+| ------------------ | ----------------------------------------------- |
+| **Frontend**       | React.js / Next.js, TailwindCSS                 |
+| **Backend**        | Firebase Cloud Functions (Serverless)           |
+| **Database**       | Firebase Firestore                              |
+| **Authentication** | Firebase Auth                                   |
+| **Hosting**        | Vercel (Frontend), Firebase Functions (Backend) |
+
+---
+
+## **Installation**
+
+To install and run Clutch Web locally:
+
+### **1️⃣ Clone the repository**
+
+```bash
+git clone https://github.com/YOUR_GITHUB_USERNAME/clutch-web.git
+cd clutch-web
+```
