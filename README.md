@@ -27,9 +27,7 @@ Clutch was created to **merge my passion for basketball and competitive gaming**
 This **web-based version** aims to:
 
 - **Make it easier for players to find and join games nearby**.
--
 - **Help new players integrate into a community**.
--
 - **Provide a competitive layer** through rankings and stat tracking (in future updates).
 
 ---
