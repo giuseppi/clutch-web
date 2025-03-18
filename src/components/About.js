@@ -6,7 +6,7 @@ const About = () => {
       <div style={{ maxWidth: '800px', margin: '0 auto', textAlign: 'center' }}>
         <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '20px' }}>About Midpoint</h1>
         <p style={{ fontSize: '1.2rem', lineHeight: '1.6', marginBottom: '20px', color: '#cccccc' }}>
-          Welcome to <strong>Midpoint</strong>, the ultimate solution for planning meetups effortlessly. Whether you're catching up with a friend or
+          Welcome to <strong>Clutch</strong>, the ultimate solution for planning meetups effortlessly. Whether you're catching up with a friend or
           planning a date, Midpoint helps you find exciting activities, restaurants, and events at a convenient location halfway between you and your
           companion. No more long commutes or frustrating planning sessions!
         </p>

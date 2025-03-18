@@ -53,8 +53,8 @@ function App() {
                   />
                 ) : (
                   <div>
-                    <h1 className="header">Welcome to Midpoint</h1>
-                    <p className="text">Plan your meet-ups effortlessly. Sign up or log in to get started!</p>
+                    <h1 className="header">Welcome to Clutch</h1>
+                    <p className="text">Find and join local basketball games. Sign up or log in to get started!</p>
                     <div className="button-group">
                       <button
                         onClick={() => (window.location.href = '/signup')}

@@ -38,7 +38,7 @@ const MidpointNavbar = () => {
       <Navbar.Brand href="/">
         <div className="flex items-center space-x-3">
           <HomeButton />
-          <span className="whitespace-nowrap text-xl font-semibold dark:text-white">Midpoint</span>
+          <span className="whitespace-nowrap text-xl font-semibold dark:text-white">Clutch</span>
         </div>
       </Navbar.Brand>
       <Navbar.Toggle className="text-gray-400 hover:text-gray-400 hover:bg-gray-800 transition duration-300" />
