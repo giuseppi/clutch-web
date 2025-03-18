@@ -29,7 +29,7 @@ const HomeButton = () => {
       onClick={handleNavigation}
     >
       <img
-        src="/midpoint_logo.png"
+        src="/clutch_temp_logo.png"
         alt="Logo"
         className="w-8 h-8 rounded"
       />
