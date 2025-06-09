@@ -1,4 +1,4 @@
-import { APIProvider, Map } from '@vis.gl/react-google-maps';
+import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
 import React, { useCallback, useState } from 'react';
 import Autocomplete from 'react-google-autocomplete';
 import MapHooks from './MapHooks';
@@ -61,7 +61,9 @@ const MapComponent = () => {
           defaultCenter={userPosition || { lat: 33.6846, lng: -117.8265 }} // Use user location only if available, otherwise default to Irvine
           defaultZoom={12}
           options={{ styles: darkModeStyles }}
-        />
+        >
+          {userPosition && <Marker position={userPosition} />}
+        </Map>
       </div>
     </APIProvider>
   );
