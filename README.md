@@ -62,7 +62,7 @@ Clutch Web is a **React-based web application** designed to serve as the foundat
 | **Backend**        | Firebase Cloud Functions (Serverless)           |
 | **Database**       | Firebase Firestore                              |
 | **Authentication** | Firebase Auth                                   |
-| **Hosting**        | Vercel (Frontend), Firebase Functions (Backend) |
+| **Hosting**        | Firebase Functions (Backend)                    |
 
 ---
 
