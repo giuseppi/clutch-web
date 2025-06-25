@@ -1,0 +1,49 @@
+/* src/index.css */
+
+body {
+  font-family: 'Roboto', sans-serif; /* Apply the font globally */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root,
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.map-container {
+  height: 100%;
+  width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500; /* Slightly bolder for headings */
+}
+
+button {
+  font-family: inherit; /* Ensure buttons inherit the global font */
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.navbar-link {
+  color: white;
+  font-weight: normal;
+  transition: color 0.3s ease, font-weight 0.3s ease;
+}
+
+.navbar-link:hover {
+  color: #38bdf8; /* Teal color */
+  font-weight: bold;
+}
