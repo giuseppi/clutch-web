@@ -1,160 +1,72 @@
 import React from 'react';
+import Carousel from './Carousel';
 
 const About = () => {
+  const storyItems = [
+    {
+      icon: '🎮',
+      title: 'Gaming Meets Basketball',
+      description:
+        "Whether you're new to the game or grinding to prove you're the most clutch player on the court, Clutch makes it easy to find games, track performance, and compete with a purpose.",
+    },
+    {
+      icon: '🏀',
+      title: 'Real-World Competition',
+      description:
+        'Inspired by my experiences both on the hardwood and in high-stakes online matches, Clutch blends real-world competition with the power of smart, intuitive design.',
+    },
+    {
+      icon: '🚀',
+      title: 'Level Up Together',
+      description: "This is more than just an app—it's a platform for players who love to win, learn, and level up together.",
+    },
+  ];
+
+  const missionItems = [
+    {
+      icon: '🎯',
+      title: 'Ranked Matchmaking',
+      description: 'Bring the competitive structure of esports to basketball with skill-based matchmaking and performance tracking.',
+    },
+    {
+      icon: '🏆',
+      title: 'Competitive Spirit',
+      description: 'Create an environment where every game matters and players can prove their skills on the court.',
+    },
+    {
+      icon: '🤝',
+      title: 'Community First',
+      description: "Build a community of passionate players who support each other's growth and love for the game.",
+    },
+  ];
+
   return (
     <div className="main-container">
       <div className="content-section about-content">
         <h1 className="header">About Clutch</h1>
         <p className="text">
-          Clutch is revolutionizing the way basketball players find and book courts. Our mission is to connect players with the best basketball
-          facilities in their area, making it easier than ever to get out and play the game you love.
+          Hi, I'm Giuseppi Pelayo—a software developer with a lifelong passion for basketball, competitive gaming, and building meaningful technology.
+          I created Clutch to bring the same energy and structure of ranked matchmaking from professional esports into the world of pick-up
+          basketball.
         </p>
 
-        <div
-          style={{
-            marginTop: '40px',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-            gap: '30px',
-          }}
-        >
-          <div
-            style={{
-              background: 'var(--bg-tertiary)',
-              padding: '25px',
-              borderRadius: '15px',
-              border: '1px solid var(--border)',
-              textAlign: 'left',
-              transition: 'all 0.3s ease',
-            }}
-          >
-            <h3
-              style={{
-                color: 'var(--success)',
-                fontSize: '1.5rem',
-                marginBottom: '15px',
-                fontWeight: '600',
-                transition: 'color 0.3s ease',
-              }}
-            >
-              Our Story
-            </h3>
-            <p
-              style={{
-                color: 'var(--text-secondary)',
-                lineHeight: '1.6',
-                transition: 'color 0.3s ease',
-              }}
-            >
-              Founded by basketball enthusiasts who were tired of driving around looking for available courts, Clutch was born from the simple idea
-              that finding a place to play shouldn't be a challenge. We've built a platform that puts the power back in the players' hands.
-            </p>
-          </div>
+        <Carousel
+          title="The Clutch Story"
+          items={storyItems}
+        />
+        <Carousel
+          title="Our Mission"
+          items={missionItems}
+        />
 
-          <div
-            style={{
-              background: 'var(--bg-tertiary)',
-              padding: '25px',
-              borderRadius: '15px',
-              border: '1px solid var(--border)',
-              textAlign: 'left',
-              transition: 'all 0.3s ease',
-            }}
-          >
-            <h3
-              style={{
-                color: 'var(--success)',
-                fontSize: '1.5rem',
-                marginBottom: '15px',
-                fontWeight: '600',
-                transition: 'color 0.3s ease',
-              }}
-            >
-              Our Mission
-            </h3>
-            <p
-              style={{
-                color: 'var(--text-secondary)',
-                lineHeight: '1.6',
-                transition: 'color 0.3s ease',
-              }}
-            >
-              To create a seamless experience for basketball players of all levels, from casual pickup games to competitive leagues. We believe
-              everyone deserves easy access to quality basketball facilities.
-            </p>
-          </div>
-
-          <div
-            style={{
-              background: 'var(--bg-tertiary)',
-              padding: '25px',
-              borderRadius: '15px',
-              border: '1px solid var(--border)',
-              textAlign: 'left',
-              transition: 'all 0.3s ease',
-            }}
-          >
-            <h3
-              style={{
-                color: 'var(--success)',
-                fontSize: '1.5rem',
-                marginBottom: '15px',
-                fontWeight: '600',
-                transition: 'color 0.3s ease',
-              }}
-            >
-              Our Values
-            </h3>
-            <ul
-              style={{
-                color: 'var(--text-secondary)',
-                lineHeight: '1.6',
-                paddingLeft: '20px',
-                transition: 'color 0.3s ease',
-              }}
-            >
-              <li>Community-driven approach.</li>
-              <li>Quality and reliability.</li>
-              <li>Accessibility for all players.</li>
-              <li>Innovation in sports technology.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div
-          style={{
-            marginTop: '40px',
-            padding: '30px',
-            background: 'var(--bg-tertiary)',
-            borderRadius: '15px',
-            border: '1px solid var(--border)',
-            textAlign: 'center',
-            transition: 'all 0.3s ease',
-          }}
-        >
-          <h3
-            style={{
-              fontSize: '1.8rem',
-              marginBottom: '20px',
-              color: 'var(--text-primary)',
-              fontWeight: '600',
-              transition: 'color 0.3s ease',
-            }}
-          >
-            Join the Clutch Community
-          </h3>
+        <div className="features-section">
+          <h3 className="features-title">Join the Clutch Community</h3>
           <p
-            style={{
-              color: 'var(--text-secondary)',
-              fontSize: '1.1rem',
-              maxWidth: '600px',
-              margin: '0 auto',
-              lineHeight: '1.6',
-              transition: 'color 0.3s ease',
-            }}
+            className="text"
+            style={{ textAlign: 'center', marginBottom: '0' }}
           >
-            Whether you're a seasoned player or just getting started, Clutch is here to help you find your perfect court. Join thousands of players
-            who are already using Clutch to elevate their game.
+            Ready to take your game to the next level? Join thousands of players who are already using Clutch to find competitive games and track
+            their progress.
           </p>
         </div>
       </div>

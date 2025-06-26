@@ -1,6 +1,7 @@
 import { signOut } from 'firebase/auth';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Carousel from '../components/Carousel';
 import { auth } from '../firebase';
 
 const Home = () => {
@@ -13,6 +14,24 @@ const Home = () => {
       console.error('Error signing out:', error);
     }
   };
+
+  const featuresItems = [
+    {
+      icon: '🏀',
+      title: 'Easy Booking',
+      description: 'Book courts instantly with our streamlined reservation system.',
+    },
+    {
+      icon: '📍',
+      title: 'Find Nearby',
+      description: 'Discover courts in your neighborhood with our location-based search.',
+    },
+    {
+      icon: '⭐',
+      title: 'Verified Quality',
+      description: 'All courts are verified and rated by the community.',
+    },
+  ];
 
   return (
     <div className="main-container">
@@ -55,23 +74,10 @@ const Home = () => {
           </div>
         )}
 
-        <div className="features-section">
-          <h3 className="features-title">Why Choose Clutch?</h3>
-          <div className="features-grid">
-            <div className="feature-item">
-              <h4 className="feature-title">🏀 Easy Booking</h4>
-              <p className="feature-description">Book courts instantly with our streamlined reservation system.</p>
-            </div>
-            <div className="feature-item">
-              <h4 className="feature-title">📍 Find Nearby</h4>
-              <p className="feature-description">Discover courts in your neighborhood with our location-based search.</p>
-            </div>
-            <div className="feature-item">
-              <h4 className="feature-title">⭐ Verified Quality</h4>
-              <p className="feature-description">All courts are verified and rated by the community.</p>
-            </div>
-          </div>
-        </div>
+        <Carousel
+          title="Why Choose Clutch?"
+          items={featuresItems}
+        />
       </div>
     </div>
   );
