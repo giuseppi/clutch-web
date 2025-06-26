@@ -49,12 +49,7 @@ const Signup = () => {
     <div className="main-container">
       <div className="form-container">
         <h2 className="auth-header">Join Clutch.</h2>
-        <p
-          className="text"
-          style={{ marginBottom: '30px' }}
-        >
-          Create your account to get started.
-        </p>
+        <p className="auth-text">Create your account to get started.</p>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -150,7 +145,7 @@ const Signup = () => {
         <GoogleLoginButton />
 
         <div style={{ marginTop: '30px', textAlign: 'center' }}>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '15px' }}>Already have an account?</p>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '15px', fontSize: '13px' }}>Already have an account?</p>
           <Link
             to="/login"
             className="link"

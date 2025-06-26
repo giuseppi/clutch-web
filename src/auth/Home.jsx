@@ -55,97 +55,20 @@ const Home = () => {
           </div>
         )}
 
-        <div
-          style={{
-            marginTop: '40px',
-            padding: '20px',
-            background: 'var(--bg-tertiary)',
-            borderRadius: '15px',
-            border: '1px solid var(--border)',
-            transition: 'all 0.3s ease',
-          }}
-        >
-          <h3
-            style={{
-              fontSize: '1.5rem',
-              marginBottom: '15px',
-              color: 'var(--text-primary)',
-              fontWeight: '600',
-              transition: 'color 0.3s ease',
-            }}
-          >
-            Why Choose Clutch?
-          </h3>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-              gap: '20px',
-              textAlign: 'left',
-            }}
-          >
-            <div>
-              <h4
-                style={{
-                  color: 'var(--success)',
-                  marginBottom: '8px',
-                  fontSize: '1.1rem',
-                  transition: 'color 0.3s ease',
-                }}
-              >
-                🏀 Easy Booking
-              </h4>
-              <p
-                style={{
-                  color: 'var(--text-secondary)',
-                  fontSize: '0.9rem',
-                  transition: 'color 0.3s ease',
-                }}
-              >
-                Book courts instantly with our streamlined reservation system
-              </p>
+        <div className="features-section">
+          <h3 className="features-title">Why Choose Clutch?</h3>
+          <div className="features-grid">
+            <div className="feature-item">
+              <h4 className="feature-title">🏀 Easy Booking</h4>
+              <p className="feature-description">Book courts instantly with our streamlined reservation system.</p>
             </div>
-            <div>
-              <h4
-                style={{
-                  color: 'var(--success)',
-                  marginBottom: '8px',
-                  fontSize: '1.1rem',
-                  transition: 'color 0.3s ease',
-                }}
-              >
-                📍 Find Nearby
-              </h4>
-              <p
-                style={{
-                  color: 'var(--text-secondary)',
-                  fontSize: '0.9rem',
-                  transition: 'color 0.3s ease',
-                }}
-              >
-                Discover courts in your neighborhood with our location-based search
-              </p>
+            <div className="feature-item">
+              <h4 className="feature-title">📍 Find Nearby</h4>
+              <p className="feature-description">Discover courts in your neighborhood with our location-based search.</p>
             </div>
-            <div>
-              <h4
-                style={{
-                  color: 'var(--success)',
-                  marginBottom: '8px',
-                  fontSize: '1.1rem',
-                  transition: 'color 0.3s ease',
-                }}
-              >
-                ⭐ Verified Quality
-              </h4>
-              <p
-                style={{
-                  color: 'var(--text-secondary)',
-                  fontSize: '0.9rem',
-                  transition: 'color 0.3s ease',
-                }}
-              >
-                All courts are verified and rated by the community
-              </p>
+            <div className="feature-item">
+              <h4 className="feature-title">⭐ Verified Quality</h4>
+              <p className="feature-description">All courts are verified and rated by the community.</p>
             </div>
           </div>
         </div>

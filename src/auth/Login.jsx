@@ -31,12 +31,7 @@ const Login = () => {
     <div className="main-container">
       <div className="form-container">
         <h2 className="auth-header">Welcome Back!</h2>
-        <p
-          className="text"
-          style={{ marginBottom: '30px' }}
-        >
-          Sign in to your account to continue.
-        </p>
+        <p className="auth-text">Sign in to your account to continue.</p>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -120,7 +115,7 @@ const Login = () => {
         <GoogleLoginButton />
 
         <div style={{ marginTop: '30px', textAlign: 'center' }}>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '15px' }}>Don't have an account?</p>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '15px', fontSize: '13px' }}>Don't have an account?</p>
           <Link
             to="/signup"
             className="link"
