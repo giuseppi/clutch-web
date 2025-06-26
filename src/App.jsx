@@ -6,6 +6,7 @@ import Home from './auth/Home';
 import Login from './auth/Login';
 import Signup from './auth/Signup';
 import About from './components/About';
+import Account from './components/Account';
 import Contact from './components/Contact';
 import MapComponent from './components/MapComponent';
 import Navbar from './components/Navbar';
@@ -22,22 +23,16 @@ const PageTransition = ({ children }) => {
     return () => clearTimeout(timer);
   }, [children]);
 
-  return (
-    <div className={`page-transition ${isVisible ? 'visible' : ''}`}>
-      {children}
-    </div>
-  );
+  return <div className={`page-transition ${isVisible ? 'visible' : ''}`}>{children}</div>;
 };
 
 // Main app content
 const AppContent = () => {
-  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
+    const unsubscribe = onAuthStateChanged(auth, () => {
       setLoading(false);
     });
 
@@ -46,15 +41,20 @@ const AppContent = () => {
 
   if (loading) {
     return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        minHeight: '100vh',
-        background: 'var(--bg-primary)',
-        transition: 'background-color 0.3s ease'
-      }}>
-        <div className="loading-spinner" style={{ width: '40px', height: '40px' }}></div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '100vh',
+          background: 'var(--bg-primary)',
+          transition: 'background-color 0.3s ease',
+        }}
+      >
+        <div
+          className="loading-spinner"
+          style={{ width: '40px', height: '40px' }}
+        ></div>
       </div>
     );
   }
@@ -64,13 +64,43 @@ const AppContent = () => {
       <Navbar />
       <PageTransition key={location.pathname}>
         <Routes location={location}>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/map" element={<MapComponent />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route
+            path="/"
+            element={<Home />}
+          />
+          <Route
+            path="/login"
+            element={<Login />}
+          />
+          <Route
+            path="/signup"
+            element={<Signup />}
+          />
+          <Route
+            path="/account"
+            element={<Account />}
+          />
+          <Route
+            path="/about"
+            element={<About />}
+          />
+          <Route
+            path="/contact"
+            element={<Contact />}
+          />
+          <Route
+            path="/map"
+            element={<MapComponent />}
+          />
+          <Route
+            path="*"
+            element={
+              <Navigate
+                to="/"
+                replace
+              />
+            }
+          />
         </Routes>
       </PageTransition>
     </div>

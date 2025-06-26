@@ -1,6 +1,7 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import GoogleLoginButton from '../components/GoogleButton.jsx';
 import { auth } from '../firebase';
 
 const Signup = () => {
@@ -47,11 +48,17 @@ const Signup = () => {
   return (
     <div className="main-container">
       <div className="form-container">
-        <h2 className="header" style={{ fontSize: '2.5rem', marginBottom: '30px' }}>
-          Join Clutch
+        <h2
+          className="header"
+          style={{ fontSize: '2.5rem', marginBottom: '30px' }}
+        >
+          Join Clutch.
         </h2>
-        <p className="text" style={{ marginBottom: '30px' }}>
-          Create your account to get started
+        <p
+          className="text"
+          style={{ marginBottom: '30px' }}
+        >
+          Create your account to get started.
         </p>
 
         <form onSubmit={handleSubmit}>
@@ -110,11 +117,49 @@ const Signup = () => {
           </button>
         </form>
 
+        {/* Divider */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            margin: '30px 0',
+            color: 'var(--text-secondary)',
+          }}
+        >
+          <div
+            style={{
+              flex: 1,
+              height: '1px',
+              background: 'var(--border)',
+            }}
+          ></div>
+          <span
+            style={{
+              padding: '0 15px',
+              fontSize: '14px',
+              fontWeight: '500',
+            }}
+          >
+            or
+          </span>
+          <div
+            style={{
+              flex: 1,
+              height: '1px',
+              background: 'var(--border)',
+            }}
+          ></div>
+        </div>
+
+        {/* Google Login Button */}
+        <GoogleLoginButton />
+
         <div style={{ marginTop: '30px', textAlign: 'center' }}>
-          <p style={{ color: 'rgba(255, 255, 255, 0.8)', marginBottom: '15px' }}>
-            Already have an account?
-          </p>
-          <Link to="/login" className="link">
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '15px' }}>Already have an account?</p>
+          <Link
+            to="/login"
+            className="link"
+          >
             Sign in to your account
           </Link>
         </div>

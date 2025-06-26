@@ -21,43 +21,52 @@ const Navbar = () => {
   };
 
   return (
-    <nav style={{
-      backgroundColor: 'var(--bg-secondary)',
-      borderBottom: '1px solid var(--border)',
-      padding: '15px 0',
-      position: 'sticky',
-      top: 0,
-      zIndex: 1000,
-      boxShadow: '0 4px 20px var(--shadow)',
-      transition: 'all 0.3s ease'
-    }}>
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '0 20px'
-      }}>
-        <Link to="/" style={{
-          textDecoration: 'none',
-          color: 'var(--text-primary)',
-          fontSize: '24px',
-          fontWeight: '700',
-          background: 'linear-gradient(45deg, var(--accent), var(--success))',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          transition: 'all 0.3s ease'
-        }}>
+    <nav
+      style={{
+        backgroundColor: 'var(--bg-secondary)',
+        borderBottom: '1px solid var(--border)',
+        padding: '15px 0',
+        position: 'sticky',
+        top: 0,
+        zIndex: 1000,
+        boxShadow: '0 4px 20px var(--shadow)',
+        transition: 'all 0.3s ease',
+      }}
+    >
+      <div
+        style={{
+          maxWidth: '1200px',
+          margin: '0 auto',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '0 20px',
+        }}
+      >
+        <Link
+          to="/"
+          style={{
+            textDecoration: 'none',
+            color: 'var(--text-primary)',
+            fontSize: '24px',
+            fontWeight: '700',
+            background: 'linear-gradient(45deg, var(--accent), var(--success))',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            transition: 'all 0.3s ease',
+          }}
+        >
           Clutch
         </Link>
 
-        <div style={{
-          display: 'flex',
-          gap: '20px',
-          alignItems: 'center'
-        }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: '20px',
+            alignItems: 'center',
+          }}
+        >
           <Link
             to="/"
             className={`nav-link ${isActive('/') ? 'active' : ''}`}
@@ -80,17 +89,46 @@ const Navbar = () => {
           <ThemeToggle />
 
           {user ? (
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '15px'
-            }}>
-              <span style={{
-                color: 'var(--text-secondary)',
-                fontSize: '14px'
-              }}>
-                Welcome, {user.email}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '15px',
+              }}
+            >
+              <span
+                style={{
+                  color: 'var(--text-secondary)',
+                  fontSize: '14px',
+                }}
+              >
+                Welcome, {user.displayName || user.email}
               </span>
+              <Link
+                to="/account"
+                className={`nav-link ${isActive('/account') ? 'active' : ''}`}
+                style={{
+                  fontSize: '14px',
+                  padding: '8px 16px',
+                  backgroundColor: 'var(--bg-tertiary)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '8px',
+                  color: 'var(--text-primary)',
+                  textDecoration: 'none',
+                  fontWeight: '500',
+                  transition: 'all 0.3s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = 'var(--bg-secondary)';
+                  e.target.style.transform = 'translateY(-1px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'var(--bg-tertiary)';
+                  e.target.style.transform = 'translateY(0)';
+                }}
+              >
+                Account
+              </Link>
               <button
                 onClick={handleSignOut}
                 style={{
@@ -102,7 +140,7 @@ const Navbar = () => {
                   cursor: 'pointer',
                   fontSize: '14px',
                   fontWeight: '500',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.backgroundColor = 'rgba(239, 68, 68, 0.2)';
@@ -117,10 +155,12 @@ const Navbar = () => {
               </button>
             </div>
           ) : (
-            <div style={{
-              display: 'flex',
-              gap: '10px'
-            }}>
+            <div
+              style={{
+                display: 'flex',
+                gap: '10px',
+              }}
+            >
               <Link
                 to="/login"
                 style={{
@@ -132,7 +172,7 @@ const Navbar = () => {
                   textDecoration: 'none',
                   fontSize: '14px',
                   fontWeight: '500',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.backgroundColor = 'var(--bg-secondary)';
@@ -156,7 +196,7 @@ const Navbar = () => {
                   textDecoration: 'none',
                   fontSize: '14px',
                   fontWeight: '500',
-                  transition: 'all 0.3s ease'
+                  transition: 'all 0.3s ease',
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.transform = 'translateY(-1px)';

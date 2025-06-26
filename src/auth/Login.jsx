@@ -30,11 +30,17 @@ const Login = () => {
   return (
     <div className="main-container">
       <div className="form-container">
-        <h2 className="header" style={{ fontSize: '2.5rem', marginBottom: '30px' }}>
-          Welcome Back
+        <h2
+          className="header"
+          style={{ fontSize: '2.5rem', marginBottom: '30px' }}
+        >
+          Welcome Back!
         </h2>
-        <p className="text" style={{ marginBottom: '30px' }}>
-          Sign in to your account to continue
+        <p
+          className="text"
+          style={{ marginBottom: '30px' }}
+        >
+          Sign in to your account to continue.
         </p>
 
         <form onSubmit={handleSubmit}>
@@ -81,16 +87,53 @@ const Login = () => {
           </button>
         </form>
 
+        {/* Divider */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            margin: '30px 0',
+            color: 'var(--text-secondary)',
+          }}
+        >
+          <div
+            style={{
+              flex: 1,
+              height: '1px',
+              background: 'var(--border)',
+            }}
+          ></div>
+          <span
+            style={{
+              padding: '0 15px',
+              fontSize: '14px',
+              fontWeight: '500',
+            }}
+          >
+            or
+          </span>
+          <div
+            style={{
+              flex: 1,
+              height: '1px',
+              background: 'var(--border)',
+            }}
+          ></div>
+        </div>
+
+        {/* Google Login Button */}
+        <GoogleLoginButton />
+
         <div style={{ marginTop: '30px', textAlign: 'center' }}>
-          <p style={{ color: 'rgba(255, 255, 255, 0.8)', marginBottom: '15px' }}>
-            Don't have an account?
-          </p>
-          <Link to="/signup" className="link">
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '15px' }}>Don't have an account?</p>
+          <Link
+            to="/signup"
+            className="link"
+          >
             Create a new account
           </Link>
         </div>
       </div>
-      <GoogleLoginButton style={{ marginTop: '20px' }} />
     </div>
   );
 };
