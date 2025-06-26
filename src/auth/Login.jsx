@@ -30,12 +30,7 @@ const Login = () => {
   return (
     <div className="main-container">
       <div className="form-container">
-        <h2
-          className="header"
-          style={{ fontSize: '2.5rem', marginBottom: '30px' }}
-        >
-          Welcome Back!
-        </h2>
+        <h2 className="auth-header">Welcome Back!</h2>
         <p
           className="text"
           style={{ marginBottom: '30px' }}

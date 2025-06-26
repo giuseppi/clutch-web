@@ -50,12 +50,13 @@ const Navbar = () => {
             color: 'var(--text-primary)',
             fontSize: '24px',
             fontWeight: '700',
-            background: 'linear-gradient(45deg, var(--accent), var(--success))',
+            background: 'linear-gradient(135deg, #60a5fa 0%, #34d399 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
             transition: 'all 0.3s ease',
           }}
+          className="navbar-logo"
         >
           Clutch
         </Link>

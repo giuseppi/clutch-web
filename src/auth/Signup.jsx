@@ -48,12 +48,7 @@ const Signup = () => {
   return (
     <div className="main-container">
       <div className="form-container">
-        <h2
-          className="header"
-          style={{ fontSize: '2.5rem', marginBottom: '30px' }}
-        >
-          Join Clutch.
-        </h2>
+        <h2 className="auth-header">Join Clutch.</h2>
         <p
           className="text"
           style={{ marginBottom: '30px' }}
