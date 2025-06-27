@@ -756,16 +756,18 @@ body {
 }
 
 .trusted-logos-container {
-  width: 100%;
   overflow: hidden;
   position: relative;
+  width: 100%;
 }
 
 .trusted-logos-scroll {
   display: flex;
   gap: 40px;
-  animation: scroll 20s linear infinite;
+  animation: scroll 40s linear infinite;
   white-space: nowrap;
+  width: max-content;
+  will-change: transform;
 }
 
 .trusted-logo {
@@ -775,6 +777,7 @@ body {
   opacity: 0.7;
   transition: opacity 0.2s ease;
   flex-shrink: 0;
+  padding: 0 20px;
 }
 
 .trusted-logo:hover {
@@ -786,7 +789,7 @@ body {
     transform: translateX(0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translateX(calc(-33.333% - 13.33px));
   }
 }
 

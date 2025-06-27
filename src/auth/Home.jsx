@@ -96,10 +96,17 @@ const Home = () => {
                 {type}
               </div>
             ))}
-            {/* Duplicate for seamless loop */}
             {courtTypes.map((type, index) => (
               <div
                 key={`duplicate-${index}`}
+                className="trusted-logo"
+              >
+                {type}
+              </div>
+            ))}
+            {courtTypes.map((type, index) => (
+              <div
+                key={`triplicate-${index}`}
                 className="trusted-logo"
               >
                 {type}
