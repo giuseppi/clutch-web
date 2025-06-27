@@ -1,39 +1,16 @@
 import { APIProvider, Map, Marker } from '@vis.gl/react-google-maps';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useTheme } from '../contexts/ThemeContext';
+import { useTheme } from '../contexts/useTheme';
 import { CourtsService } from '../services/courtsService';
 import MapHooks from './MapHooks.jsx';
 import MapSearch from './MapSearch.jsx';
-
-const googleMapsKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const MapComponent = () => {
   const [userPosition, setUserPosition] = useState(null);
   const [nearbyCourts, setNearbyCourts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [selectedPlace, setSelectedPlace] = useState(null);
   const { isDark } = useTheme();
-
-  // Check if Google Maps API key is available
-  if (!googleMapsKey) {
-    return (
-      <div style={{
-        height: '90vh',
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'var(--bg-primary)',
-        color: 'var(--text-primary)',
-        transition: 'all 0.3s ease'
-      }}>
-        <div style={{ textAlign: 'center' }}>
-          <h2>Google Maps API Key Missing</h2>
-          <p>Please set the VITE_GOOGLE_MAPS_API_KEY environment variable to use the map feature.</p>
-        </div>
-      </div>
-    );
-  }
+  const googleMapsKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
   // Wrap `setUserPosition` in useCallback to prevent re-creation on re-renders
   const handleLocationUpdate = useCallback((position) => {
@@ -45,21 +22,16 @@ const MapComponent = () => {
     if (place?.geometry?.location) {
       const lat = place.geometry.location.lat();
       const lng = place.geometry.location.lng();
-      setSelectedPlace({ lat, lng });
       setUserPosition({ lat, lng });
     }
   }, []);
 
   // Fetch nearby courts when user position changes
-  useEffect(() => {
-    if (userPosition) {
-      setLoading(true);
-      fetchNearbyCourts();
-    }
-  }, [userPosition]);
+  const fetchNearbyCourts = useCallback(async () => {
+    if (!userPosition) return;
 
-  const fetchNearbyCourts = async () => {
     try {
+      setLoading(true);
       const courts = await CourtsService.fetchNearbyCourts(
         userPosition.lat,
         userPosition.lng,
@@ -71,37 +43,71 @@ const MapComponent = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userPosition]);
+
+  useEffect(() => {
+    if (userPosition) {
+      fetchNearbyCourts();
+    }
+  }, [userPosition, fetchNearbyCourts]);
+
+  // Early return for missing API key
+  if (!googleMapsKey) {
+    return (
+      <div
+        style={{
+          height: '90vh',
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'var(--bg-primary)',
+          color: 'var(--text-primary)',
+        }}
+      >
+        <div style={{ textAlign: 'center' }}>
+          <h2>Google Maps API Key Missing</h2>
+          <p>Please set the VITE_GOOGLE_MAPS_API_KEY environment variable to use the map feature.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <APIProvider apiKey={googleMapsKey}>
-      <div style={{
-        position: 'relative',
-        height: '90vh',
-        width: '100%',
-        background: 'var(--bg-primary)',
-        transition: 'background-color 0.3s ease'
-      }}>
+      <div
+        style={{
+          position: 'relative',
+          height: '90vh',
+          width: '100%',
+          background: 'var(--bg-primary)',
+          transition: 'background-color 0.3s ease',
+        }}
+      >
         {/* Search Bar */}
-        <div style={{
-          position: 'absolute',
-          top: '20px',
-          left: '20px',
-          zIndex: 1000,
-          background: 'var(--bg-secondary)',
-          padding: '16px',
-          borderRadius: '12px',
-          border: '1px solid var(--border)',
-          boxShadow: '0 4px 20px var(--shadow)',
-          transition: 'all 0.3s ease'
-        }}>
-          <h3 style={{
-            margin: '0 0 12px 0',
-            fontSize: '16px',
-            fontWeight: '600',
-            color: 'var(--text-primary)',
-            transition: 'color 0.3s ease'
-          }}>
+        <div
+          style={{
+            position: 'absolute',
+            top: '20px',
+            left: '20px',
+            zIndex: 1000,
+            background: 'var(--bg-secondary)',
+            padding: '16px',
+            borderRadius: '12px',
+            border: '1px solid var(--border)',
+            boxShadow: '0 4px 20px var(--shadow)',
+            transition: 'all 0.3s ease',
+          }}
+        >
+          <h3
+            style={{
+              margin: '0 0 12px 0',
+              fontSize: '16px',
+              fontWeight: '600',
+              color: 'var(--text-primary)',
+              transition: 'color 0.3s ease',
+            }}
+          >
             Find Courts
           </h3>
           <MapSearch onPlaceSelect={handlePlaceSelect} />
@@ -109,46 +115,53 @@ const MapComponent = () => {
 
         {/* Loading Indicator */}
         {loading && (
-          <div style={{
-            position: 'absolute',
-            top: '20px',
-            right: '20px',
-            zIndex: 1000,
-            background: 'var(--bg-secondary)',
-            color: 'var(--text-primary)',
-            padding: '12px 16px',
-            borderRadius: '8px',
-            border: '1px solid var(--border)',
-            boxShadow: '0 4px 12px var(--shadow)',
-            fontSize: '14px',
-            fontWeight: '500',
-            transition: 'all 0.3s ease',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px'
-          }}>
-            <div className="loading-spinner" style={{ width: '16px', height: '16px' }}></div>
+          <div
+            style={{
+              position: 'absolute',
+              top: '20px',
+              right: '20px',
+              zIndex: 1000,
+              background: 'var(--bg-secondary)',
+              color: 'var(--text-primary)',
+              padding: '12px 16px',
+              borderRadius: '8px',
+              border: '1px solid var(--border)',
+              boxShadow: '0 4px 12px var(--shadow)',
+              fontSize: '14px',
+              fontWeight: '500',
+              transition: 'all 0.3s ease',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            <div
+              className="loading-spinner"
+              style={{ width: '16px', height: '16px' }}
+            ></div>
             Finding nearby courts...
           </div>
         )}
 
         {/* Court Count */}
         {nearbyCourts.length > 0 && (
-          <div style={{
-            position: 'absolute',
-            bottom: '20px',
-            left: '20px',
-            zIndex: 1000,
-            background: 'var(--bg-secondary)',
-            color: 'var(--text-primary)',
-            padding: '12px 16px',
-            borderRadius: '8px',
-            border: '1px solid var(--border)',
-            boxShadow: '0 4px 12px var(--shadow)',
-            fontSize: '14px',
-            fontWeight: '500',
-            transition: 'all 0.3s ease'
-          }}>
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '20px',
+              left: '20px',
+              zIndex: 1000,
+              background: 'var(--bg-secondary)',
+              color: 'var(--text-primary)',
+              padding: '12px 16px',
+              borderRadius: '8px',
+              border: '1px solid var(--border)',
+              boxShadow: '0 4px 12px var(--shadow)',
+              fontSize: '14px',
+              fontWeight: '500',
+              transition: 'all 0.3s ease',
+            }}
+          >
             Found {nearbyCourts.length} court{nearbyCourts.length !== 1 ? 's' : ''} nearby
           </div>
         )}
@@ -166,7 +179,7 @@ const MapComponent = () => {
             zoomControl: true,
             mapTypeControl: false,
             streetViewControl: false,
-            fullscreenControl: true
+            fullscreenControl: true,
           }}
         >
           {/* User's location marker */}
@@ -174,13 +187,17 @@ const MapComponent = () => {
             <Marker
               position={userPosition}
               icon={{
-                url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                url:
+                  'data:image/svg+xml;charset=UTF-8,' +
+                  encodeURIComponent(`
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="8" fill="${isDark ? '#60a5fa' : '#3b82f6'}" stroke="${isDark ? '#1e293b' : '#ffffff'}" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="8" fill="${isDark ? '#60a5fa' : '#3b82f6'}" stroke="${
+                    isDark ? '#1e293b' : '#ffffff'
+                  }" stroke-width="2"/>
                     <circle cx="12" cy="12" r="3" fill="${isDark ? '#1e293b' : '#ffffff'}"/>
                   </svg>
                 `),
-                scaledSize: { width: 24, height: 24 }
+                scaledSize: { width: 24, height: 24 },
               }}
             />
           )}
@@ -194,14 +211,18 @@ const MapComponent = () => {
                 lng: court.geometry?.location?.lng || court.longitude,
               }}
               icon={{
-                url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(`
+                url:
+                  'data:image/svg+xml;charset=UTF-8,' +
+                  encodeURIComponent(`
                   <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="4" y="4" width="24" height="24" rx="4" fill="${isDark ? '#f87171' : '#ef4444'}" stroke="${isDark ? '#1e293b' : '#ffffff'}" stroke-width="2"/>
+                    <rect x="4" y="4" width="24" height="24" rx="4" fill="${isDark ? '#f87171' : '#ef4444'}" stroke="${
+                    isDark ? '#1e293b' : '#ffffff'
+                  }" stroke-width="2"/>
                     <circle cx="16" cy="16" r="6" fill="${isDark ? '#1e293b' : '#ffffff'}"/>
                     <circle cx="16" cy="16" r="3" fill="${isDark ? '#f87171' : '#ef4444'}"/>
                   </svg>
                 `),
-                scaledSize: { width: 32, height: 32 }
+                scaledSize: { width: 32, height: 32 },
               }}
               title={court.name}
             />

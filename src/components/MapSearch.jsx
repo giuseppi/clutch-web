@@ -1,11 +1,9 @@
 import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useTheme } from '../contexts/ThemeContext';
 
 const MapSearch = ({ onPlaceSelect }) => {
   const map = useMap();
   const places = useMapsLibrary('places');
-  const { isDark } = useTheme();
 
   const [sessionToken, setSessionToken] = useState(null);
   const [autocompleteService, setAutocompleteService] = useState(null);
@@ -70,11 +68,13 @@ const MapSearch = ({ onPlaceSelect }) => {
   );
 
   return (
-    <div style={{
-      position: 'relative',
-      width: '100%',
-      maxWidth: '300px'
-    }}>
+    <div
+      style={{
+        position: 'relative',
+        width: '100%',
+        maxWidth: '300px',
+      }}
+    >
       <input
         value={inputValue}
         onChange={onInputChange}
@@ -88,7 +88,7 @@ const MapSearch = ({ onPlaceSelect }) => {
           color: 'var(--text-primary)',
           fontSize: '14px',
           transition: 'all 0.3s ease',
-          boxShadow: '0 2px 8px var(--shadow)'
+          boxShadow: '0 2px 8px var(--shadow)',
         }}
         onFocus={(e) => {
           e.target.style.borderColor = 'var(--accent)';
@@ -100,23 +100,25 @@ const MapSearch = ({ onPlaceSelect }) => {
         }}
       />
       {predictionResults.length > 0 && (
-        <ul style={{
-          position: 'absolute',
-          top: '100%',
-          left: 0,
-          right: 0,
-          background: 'var(--bg-secondary)',
-          border: '1px solid var(--border)',
-          borderRadius: '8px',
-          margin: '4px 0 0 0',
-          padding: 0,
-          listStyle: 'none',
-          zIndex: 1000,
-          maxHeight: '200px',
-          overflowY: 'auto',
-          boxShadow: '0 4px 12px var(--shadow)',
-          transition: 'all 0.3s ease'
-        }}>
+        <ul
+          style={{
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            right: 0,
+            background: 'var(--bg-secondary)',
+            border: '1px solid var(--border)',
+            borderRadius: '8px',
+            margin: '4px 0 0 0',
+            padding: 0,
+            listStyle: 'none',
+            zIndex: 1000,
+            maxHeight: '200px',
+            overflowY: 'auto',
+            boxShadow: '0 4px 12px var(--shadow)',
+            transition: 'all 0.3s ease',
+          }}
+        >
           {predictionResults.map(({ place_id, description }) => (
             <li
               key={place_id}
@@ -126,7 +128,7 @@ const MapSearch = ({ onPlaceSelect }) => {
                 borderBottom: '1px solid var(--border)',
                 color: 'var(--text-primary)',
                 fontSize: '14px',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.2s ease',
               }}
               onClick={() => handleSuggestionClick(place_id)}
               onMouseEnter={(e) => {

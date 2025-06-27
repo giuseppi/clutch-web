@@ -1,6 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-
-const ThemeContext = createContext();
+import React, { useEffect, useState } from 'react';
+import { ThemeContext } from './ThemeContextCore';
 
 export const ThemeProvider = ({ children }) => {
   // Get initial theme from localStorage or system preference
@@ -48,13 +47,4 @@ export const ThemeProvider = ({ children }) => {
   };
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
-};
-
-// Custom hook to use theme context
-export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error('useTheme must be used within a ThemeProvider');
-  }
-  return context;
 };

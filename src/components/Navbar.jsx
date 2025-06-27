@@ -183,7 +183,9 @@ const NavLink = ({ to, children, isActive }) => (
   </Link>
 );
 
-const DropdownItem = ({ to, icon: Icon, children, active }) => (
+const DropdownItem = (
+  { to, icon: Icon, children, active } // eslint-disable-line no-unused-vars
+) => (
   <Link
     to={to}
     style={{

@@ -1,10 +1,7 @@
-import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
-import { useEffect, useState } from 'react';
+import { useMap } from '@vis.gl/react-google-maps';
+import { useEffect } from 'react';
 
 const MapHooks = ({ onLocationUpdate, onMapReady }) => {
-  const [userPosition, setUserPosition] = useState(null);
-  const [geoError, setGeoError] = useState(null);
-
   const map = useMap(); // Get access to the Google Map instance
 
   // Ensures map's instance is ready before calling onMapReady
@@ -20,7 +17,6 @@ const MapHooks = ({ onLocationUpdate, onMapReady }) => {
   useEffect(() => {
     if (!navigator.geolocation) {
       console.warn('Geolocation is not supported by this browser.');
-      setGeoError('Geolocation is not supported');
       return;
     }
 
@@ -34,12 +30,10 @@ const MapHooks = ({ onLocationUpdate, onMapReady }) => {
       (position) => {
         const { latitude, longitude } = position.coords;
         console.log('User location:', latitude, longitude);
-        setUserPosition({ lat: latitude, lng: longitude });
         onLocationUpdate({ lat: latitude, lng: longitude }); // Pass data to parent component
       },
       (error) => {
         console.error('Geolocation error:', error);
-        setGeoError(error.message);
       },
       options
     );
