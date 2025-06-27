@@ -52,7 +52,9 @@ const About = () => {
       {/* Story Section */}
       <section className="about-section">
         <div className="about-section-content">
-          <h2 className="about-section-title">The Clutch Story</h2>
+          <h2 className="about-section-title">
+            The Clutch <span className="gradient-text">Story</span>
+          </h2>
           <div className="about-grid">
             {storyItems.map((item, index) => (
               <div
@@ -70,7 +72,9 @@ const About = () => {
       {/* Mission Section */}
       <section className="about-section">
         <div className="about-section-content">
-          <h2 className="about-section-title">Our Mission</h2>
+          <h2 className="about-section-title">
+            Our <span className="gradient-text">Mission</span>
+          </h2>
           <div className="about-grid">
             {missionItems.map((item, index) => (
               <div
@@ -88,7 +92,9 @@ const About = () => {
       {/* CTA Section */}
       <section className="about-cta">
         <div className="about-cta-content">
-          <h2 className="about-cta-title">Join the Clutch Community</h2>
+          <h2 className="about-cta-title">
+            Join the Clutch <span className="gradient-text">Community</span>
+          </h2>
           <p className="about-cta-subtitle">
             Ready to take your game to the next level? Be among the first to experience the future of basketball court discovery.
           </p>

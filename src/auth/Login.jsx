@@ -109,7 +109,11 @@ const Login = () => {
         {/* Right Side - Content */}
         <div className="auth-content-section">
           <div className="auth-content">
-            <h2 className="auth-content-title">Join the Basketball Revolution.</h2>
+            <h2 className="auth-content-title">
+              Join the
+              <br />
+              <span className="gradient-text">Basketball Revolution.</span>
+            </h2>
             <p className="auth-content-subtitle">
               Connect with courts and players in your area. Find verified locations, join pickup games, and never wait for a court again.
             </p>

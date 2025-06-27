@@ -13,6 +13,17 @@ import Navbar from './components/Navbar';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { auth } from './firebase';
 
+// Scroll to top component
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
+
 // Page transition wrapper component
 const PageTransition = ({ children }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -111,6 +122,7 @@ function App() {
   return (
     <ThemeProvider>
       <Router>
+        <ScrollToTop />
         <AppContent />
       </Router>
     </ThemeProvider>

@@ -34,6 +34,15 @@
   --dark-error: #f87171;
   --dark-warning: #fbbf24;
 
+  /* Theme Gradients */
+  --gradient-primary: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
+  --gradient-secondary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  /* Theme Shadows */
+  --shadow-primary: 0 4px 12px rgba(96, 165, 250, 0.3);
+  --shadow-secondary: 0 4px 12px rgba(102, 126, 234, 0.3);
+  --shadow-focus: 0 0 0 3px rgba(102, 126, 234, 0.1);
+
   /* Google Button Colors */
   --google-button-bg: #f8fafc;
   --google-button-border: #e2e8f0;
@@ -81,6 +90,10 @@
   --google-button-border: #404040;
   --google-button-border-hover: #525252;
   --google-button-text: #b3b3b3;
+
+  /* Dark theme gradients and shadows */
+  --gradient-primary: var(--gradient-secondary);
+  --shadow-primary: var(--shadow-secondary);
 }
 
 /* Global Styles */
@@ -100,6 +113,54 @@ body {
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utility Classes for Common Patterns */
+.gradient-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme='dark'] .gradient-text {
+  background: var(--gradient-secondary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-button {
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  display: inline-block;
+  padding: 12px 24px;
+}
+
+.gradient-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-primary);
+}
+
+[data-theme='dark'] .gradient-button {
+  background: var(--gradient-secondary);
+}
+
+[data-theme='dark'] .gradient-button:hover {
+  box-shadow: var(--shadow-secondary);
+}
+
+.gradient-button.small {
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 /* Container for the entire app */
@@ -415,7 +476,7 @@ body {
 .form-input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: var(--shadow-focus);
 }
 
 .form-button {
@@ -651,21 +712,50 @@ body {
 
 /* Navbar Logo */
 .navbar-logo {
-  font-size: 1.25rem;
+  text-decoration: none;
+  color: var(--text-primary);
+  font-size: 20px;
   font-weight: 700;
-  background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
+  background: var(--gradient-primary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-decoration: none;
   transition: all 0.3s ease;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.025em;
 }
 
 [data-theme='dark'] .navbar-logo {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-secondary);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+.navbar-signup-button {
+  padding: 6px 12px;
+  background: var(--gradient-primary);
+  border: none;
+  border-radius: 6px;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.navbar-signup-button:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-primary);
+}
+
+[data-theme='dark'] .navbar-signup-button {
+  background: var(--gradient-secondary);
+}
+
+[data-theme='dark'] .navbar-signup-button:hover {
+  box-shadow: var(--shadow-secondary);
 }
 
 /* Features Section for Home Page */
@@ -850,18 +940,26 @@ body {
 .cta-button {
   display: inline-block;
   padding: 12px 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-primary);
   color: white;
   text-decoration: none;
   border-radius: 6px;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.875rem;
   transition: all 0.2s ease;
 }
 
 .cta-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: var(--shadow-primary);
+}
+
+[data-theme='dark'] .cta-button {
+  background: var(--gradient-secondary);
+}
+
+[data-theme='dark'] .cta-button:hover {
+  box-shadow: var(--shadow-secondary);
 }
 
 /* About Page Styles */
@@ -1133,25 +1231,33 @@ body {
 .contact-form-textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: var(--shadow-focus);
 }
 
 .contact-form-button {
-  width: 100%;
   padding: 12px 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-primary);
   color: white;
   border: none;
   border-radius: 6px;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  width: 100%;
 }
 
 .contact-form-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: var(--shadow-primary);
+}
+
+[data-theme='dark'] .contact-form-button {
+  background: var(--gradient-secondary);
+}
+
+[data-theme='dark'] .contact-form-button:hover {
+  box-shadow: var(--shadow-secondary);
 }
 
 .contact-success {
@@ -1296,13 +1402,6 @@ body {
   color: var(--text-primary);
 }
 
-.gradient-text {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 .hero-subtitle {
   font-size: 1.125rem;
   line-height: 1.6;
@@ -1333,13 +1432,13 @@ body {
 }
 
 .hero-button.primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-primary);
   color: white;
 }
 
 .hero-button.primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: var(--shadow-primary);
 }
 
 .hero-button.secondary {
@@ -1444,18 +1543,18 @@ body {
 .cta-button {
   display: inline-block;
   padding: 12px 24px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-primary);
   color: white;
   text-decoration: none;
   border-radius: 6px;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.875rem;
   transition: all 0.2s ease;
 }
 
 .cta-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: var(--shadow-primary);
 }
 
 /* Carousel Features Section */
@@ -1684,7 +1783,7 @@ body {
 .auth-form-input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: var(--shadow-focus);
 }
 
 .auth-form-input::placeholder {
@@ -1702,8 +1801,9 @@ body {
 }
 
 .auth-form-button {
+  width: 100%;
   padding: 12px 24px;
-  background: linear-gradient(135deg, #60a5fa 0%, #34d399 100%);
+  background: var(--gradient-primary);
   color: white;
   border: none;
   border-radius: 6px;
@@ -1711,12 +1811,15 @@ body {
   font-size: 0.875rem;
   cursor: pointer;
   transition: all 0.2s ease;
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .auth-form-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(96, 165, 250, 0.3);
+  box-shadow: var(--shadow-primary);
 }
 
 .auth-form-button:disabled {
@@ -1725,11 +1828,11 @@ body {
 }
 
 [data-theme='dark'] .auth-form-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--gradient-secondary);
 }
 
 [data-theme='dark'] .auth-form-button:hover {
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: var(--shadow-secondary);
 }
 
 .auth-divider {
@@ -1880,4 +1983,12 @@ body {
   .auth-features {
     gap: 16px;
   }
+}
+
+[data-theme='dark'] .hero-button.primary {
+  background: var(--gradient-secondary);
+}
+
+[data-theme='dark'] .hero-button.primary:hover {
+  box-shadow: var(--shadow-secondary);
 }

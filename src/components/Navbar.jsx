@@ -49,19 +49,6 @@ const Navbar = () => {
       >
         <Link
           to="/"
-          style={{
-            textDecoration: 'none',
-            color: 'var(--text-primary)',
-            fontSize: '20px',
-            fontWeight: '700',
-            background: 'linear-gradient(135deg, var(--accent) 0%, var(--success) 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            transition: 'all 0.3s ease',
-            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-            letterSpacing: '-0.025em',
-          }}
           className="navbar-logo"
         >
           Clutch
@@ -218,26 +205,7 @@ const Navbar = () => {
               </Link>
               <Link
                 to="/signup"
-                style={{
-                  padding: '6px 12px',
-                  background: 'linear-gradient(45deg, var(--accent), var(--accent-hover))',
-                  border: 'none',
-                  borderRadius: '6px',
-                  color: '#ffffff',
-                  textDecoration: 'none',
-                  fontSize: '13px',
-                  fontWeight: '500',
-                  transition: 'all 0.3s ease',
-                  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.transform = 'translateY(-1px)';
-                  e.target.style.boxShadow = '0 4px 12px rgba(59, 130, 246, 0.3)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.transform = 'translateY(0)';
-                  e.target.style.boxShadow = 'none';
-                }}
+                className="navbar-signup-button"
               >
                 Sign Up
               </Link>

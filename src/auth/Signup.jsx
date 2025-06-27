@@ -140,9 +140,9 @@ const Signup = () => {
         <div className="auth-content-section">
           <div className="auth-content">
             <h2 className="auth-content-title">
-              Find Your Court.
+              Find Your <span className="gradient-text">Court.</span>
               <br />
-              Find Your Game.
+              Find Your <span className="gradient-text">Game.</span>
             </h2>
             <p className="auth-content-subtitle">
               Join thousands of basketball players discovering courts, joining games, and building communities. Start your basketball journey today.
