@@ -107,29 +107,35 @@ code {
   background-color: var(--bg-tertiary) !important;
   box-shadow: none !important;
   outline: none !important;
+  border: none !important;
 }
 
 /* Text selection prevention */
 .dropdown-button::selection,
 .dropdown-button::-moz-selection {
-  background: transparent;
+  background: transparent !important;
 }
 
-/* Focus and state management */
+/* Focus and state management - comprehensive override */
 .dropdown-button:focus,
 .dropdown-button:focus-visible,
 .dropdown-button:active,
 .dropdown-button:focus-within,
 .dropdown-button:visited,
-.dropdown-button:link {
+.dropdown-button:link,
+.dropdown-button:target {
   outline: none !important;
   background-color: var(--bg-tertiary) !important;
   box-shadow: none !important;
+  border: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
 }
 
 .dropdown-button:hover {
   background-color: var(--bg-secondary) !important;
   box-shadow: none !important;
+  border: none !important;
 }
 
 /* Pseudo-element reset */
@@ -151,6 +157,8 @@ code {
 [data-headlessui-state='open'] .dropdown-button,
 [data-headlessui-state='open'] .dropdown-button:hover {
   background-color: var(--bg-secondary) !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 
 /* Dark mode overrides */

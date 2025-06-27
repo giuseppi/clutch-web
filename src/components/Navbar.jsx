@@ -275,11 +275,9 @@ const Navbar = () => {
                     className="dropdown-button"
                     style={styles.dropdownButton}
                     onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = 'var(--bg-secondary)';
                       e.target.style.transform = 'translateY(-1px)';
                     }}
                     onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = 'var(--bg-tertiary)';
                       e.target.style.transform = 'translateY(0)';
                     }}
                   >

@@ -118,12 +118,85 @@ const AppContent = () => {
   );
 };
 
+// Error Boundary Component
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('App Error:', error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            minHeight: '100vh',
+            padding: '20px',
+            textAlign: 'center',
+            background: 'var(--bg-primary)',
+            color: 'var(--text-primary)',
+          }}
+        >
+          <h1>Something went wrong</h1>
+          <p>Please refresh the page or contact support.</p>
+          <button
+            onClick={() => window.location.reload()}
+            style={{
+              padding: '10px 20px',
+              margin: '10px',
+              background: 'var(--bg-secondary)',
+              border: '1px solid var(--border)',
+              borderRadius: '6px',
+              color: 'var(--text-primary)',
+              cursor: 'pointer',
+            }}
+          >
+            Refresh Page
+          </button>
+          {import.meta.env.DEV && (
+            <details style={{ marginTop: '20px', textAlign: 'left' }}>
+              <summary>Error Details (Development)</summary>
+              <pre
+                style={{
+                  background: 'var(--bg-secondary)',
+                  padding: '10px',
+                  borderRadius: '4px',
+                  overflow: 'auto',
+                  maxWidth: '100%',
+                }}
+              >
+                {this.state.error?.toString()}
+              </pre>
+            </details>
+          )}
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 function App() {
   return (
     <ThemeProvider>
       <Router>
         <ScrollToTop />
-        <AppContent />
+        <ErrorBoundary>
+          <AppContent />
+        </ErrorBoundary>
       </Router>
     </ThemeProvider>
   );
