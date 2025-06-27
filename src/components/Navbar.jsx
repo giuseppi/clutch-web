@@ -1,12 +1,22 @@
-import { signOut } from 'firebase/auth';
-import React from 'react';
+import { Menu, Transition } from '@headlessui/react';
+import { ChartBarIcon, UserIcon } from '@heroicons/react/24/outline';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { auth } from '../firebase';
 import ThemeToggle from './ThemeToggle';
 
 const Navbar = () => {
   const location = useLocation();
-  const user = auth.currentUser;
+  const [user, setUser] = useState(auth.currentUser);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleSignOut = async () => {
     try {
@@ -109,67 +119,151 @@ const Navbar = () => {
         >
           {user ? (
             <>
-              <span
-                style={{
-                  color: 'var(--text-secondary)',
-                  fontSize: '13px',
-                  fontWeight: '500',
-                  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                }}
+              <Menu
+                as="div"
+                style={{ position: 'relative', display: 'inline-block' }}
               >
-                {user.displayName || user.email}
-              </span>
-              <Link
-                to="/account"
-                className={`nav-link ${isActive('/account') ? 'active' : ''}`}
-                style={{
-                  fontSize: '13px',
-                  padding: '6px 12px',
-                  backgroundColor: 'var(--bg-tertiary)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '6px',
-                  color: 'var(--text-primary)',
-                  textDecoration: 'none',
-                  fontWeight: '500',
-                  transition: 'all 0.3s ease',
-                  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = 'var(--bg-secondary)';
-                  e.target.style.transform = 'translateY(-1px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = 'var(--bg-tertiary)';
-                  e.target.style.transform = 'translateY(0)';
-                }}
-              >
-                Account
-              </Link>
-              <button
-                onClick={handleSignOut}
-                style={{
-                  padding: '6px 12px',
-                  backgroundColor: 'rgba(239, 68, 68, 0.1)',
-                  border: '1px solid rgba(239, 68, 68, 0.3)',
-                  borderRadius: '6px',
-                  color: 'var(--error)',
-                  cursor: 'pointer',
-                  fontSize: '13px',
-                  fontWeight: '500',
-                  transition: 'all 0.3s ease',
-                  fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                }}
-                onMouseEnter={(e) => {
-                  e.target.style.backgroundColor = 'rgba(239, 68, 68, 0.2)';
-                  e.target.style.transform = 'translateY(-1px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
-                  e.target.style.transform = 'translateY(0)';
-                }}
-              >
-                Sign Out
-              </button>
+                <div>
+                  <Menu.Button
+                    className="dropdown-button"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      padding: '6px 12px',
+                      backgroundColor: 'var(--bg-tertiary)',
+                      border: '1px solid var(--border)',
+                      borderRadius: '6px',
+                      color: 'var(--text-primary)',
+                      fontSize: '13px',
+                      fontWeight: '500',
+                      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      outline: 'none',
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                      MozUserSelect: 'none',
+                      msUserSelect: 'none',
+                      WebkitTouchCallout: 'none',
+                      WebkitTapHighlightColor: 'transparent',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.backgroundColor = 'var(--bg-secondary)';
+                      e.target.style.transform = 'translateY(-1px)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor = 'var(--bg-tertiary)';
+                      e.target.style.transform = 'translateY(0)';
+                    }}
+                  >
+                    <span>{user.displayName || user.email}</span>
+                  </Menu.Button>
+                </div>
+
+                <Transition
+                  enter="transition ease-out duration-150"
+                  enterFrom="opacity-0 scale-95 -translate-y-1"
+                  enterTo="opacity-100 scale-100 translate-y-0"
+                  leave="transition ease-in duration-100"
+                  leaveFrom="opacity-100 scale-100 translate-y-0"
+                  leaveTo="opacity-0 scale-95 -translate-y-1"
+                >
+                  <Menu.Items
+                    style={{
+                      position: 'absolute',
+                      top: '100%',
+                      right: 0,
+                      zIndex: 10,
+                      marginTop: '4px',
+                      width: '200px',
+                      backgroundColor: 'var(--bg-secondary)',
+                      border: '1px solid var(--border)',
+                      borderRadius: '8px',
+                      boxShadow: '0 10px 25px var(--shadow)',
+                      padding: '8px 0',
+                      transformOrigin: 'top right',
+                      outline: 'none',
+                    }}
+                  >
+                    <div>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            to="/account"
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              padding: '8px 16px',
+                              color: 'var(--text-primary)',
+                              fontSize: '13px',
+                              fontWeight: '500',
+                              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                              textDecoration: 'none',
+                              backgroundColor: active ? 'var(--bg-tertiary)' : 'transparent',
+                              transition: 'background-color 0.2s ease',
+                            }}
+                          >
+                            <UserIcon style={{ width: '16px', height: '16px', marginRight: '8px', color: 'var(--text-secondary)' }} />
+                            Account Settings
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <Link
+                            to="/account?tab=stats"
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              padding: '8px 16px',
+                              color: 'var(--text-primary)',
+                              fontSize: '13px',
+                              fontWeight: '500',
+                              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                              textDecoration: 'none',
+                              backgroundColor: active ? 'var(--bg-tertiary)' : 'transparent',
+                              transition: 'background-color 0.2s ease',
+                            }}
+                          >
+                            <ChartBarIcon style={{ width: '16px', height: '16px', marginRight: '8px', color: 'var(--text-secondary)' }} />
+                            Stats
+                          </Link>
+                        )}
+                      </Menu.Item>
+                      <div
+                        style={{
+                          height: '1px',
+                          backgroundColor: 'var(--border)',
+                          margin: '4px 0',
+                        }}
+                      ></div>
+                      <Menu.Item>
+                        {({ active }) => (
+                          <button
+                            onClick={handleSignOut}
+                            style={{
+                              display: 'block',
+                              width: '100%',
+                              textAlign: 'left',
+                              padding: '8px 16px',
+                              color: 'var(--error)',
+                              fontSize: '13px',
+                              fontWeight: '500',
+                              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                              backgroundColor: active ? 'rgba(239, 68, 68, 0.1)' : 'transparent',
+                              border: 'none',
+                              cursor: 'pointer',
+                              transition: 'background-color 0.2s ease',
+                            }}
+                          >
+                            Sign Out
+                          </button>
+                        )}
+                      </Menu.Item>
+                    </div>
+                  </Menu.Items>
+                </Transition>
+              </Menu>
             </>
           ) : (
             <div

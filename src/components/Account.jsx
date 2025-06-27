@@ -1,14 +1,20 @@
+import { Tab } from '@headlessui/react';
 import { EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification, updateEmail, updatePassword, updateProfile } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { auth } from '../firebase';
 
 const Account = () => {
   const user = auth.currentUser;
+  const [searchParams] = useSearchParams();
+  const defaultTabIndex = searchParams.get('tab') === 'stats' ? 1 : 0;
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
   const [formData, setFormData] = useState({
     displayName: user?.displayName || '',
+    firstName: user?.displayName?.split(' ')[0] || '',
+    lastName: user?.displayName?.split(' ').slice(1).join(' ') || '',
     email: user?.email || '',
     currentPassword: '',
     newPassword: '',
@@ -18,9 +24,12 @@ const Account = () => {
 
   useEffect(() => {
     if (user) {
+      const displayNameParts = user.displayName ? user.displayName.split(' ') : ['', ''];
       setFormData((prev) => ({
         ...prev,
         displayName: user.displayName || '',
+        firstName: displayNameParts[0] || '',
+        lastName: displayNameParts.slice(1).join(' ') || '',
         email: user.email || '',
       }));
     }
@@ -46,7 +55,7 @@ const Account = () => {
     try {
       await updateProfile(user, {
         displayName: formData.displayName,
-        photoURL: user.photoURL, // Keep existing photo for now
+        photoURL: user.photoURL,
       });
       showMessage('Profile updated successfully!');
     } catch (error) {
@@ -94,11 +103,8 @@ const Account = () => {
 
     setLoading(true);
     try {
-      // Re-authenticate user before password change
       const credential = EmailAuthProvider.credential(user.email, formData.currentPassword);
       await reauthenticateWithCredential(user, credential);
-
-      // Update password
       await updatePassword(user, formData.newPassword);
 
       showMessage('Password updated successfully!');
@@ -121,12 +127,286 @@ const Account = () => {
     }
   };
 
+  const renderAccountSettings = () => (
+    <>
+      {/* Message Display */}
+      {message.text && (
+        <div className={`account-message ${message.type === 'error' ? 'error' : 'success'}`}>
+          <div className="message-indicator"></div>
+          {message.text}
+        </div>
+      )}
+
+      {/* Profile Section */}
+      <div className="account-section">
+        <div className="section-header">
+          <h2 className="section-title">Profile Information</h2>
+          <p className="section-description">Update your display name and personal details.</p>
+        </div>
+
+        <form
+          onSubmit={handleUpdateProfile}
+          className="account-form"
+        >
+          <div className="form-group">
+            <label className="form-label">Display Name</label>
+            <input
+              type="text"
+              name="displayName"
+              className="form-input"
+              value={formData.displayName}
+              onChange={handleInputChange}
+              placeholder="Enter your display name"
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">First Name</label>
+            <input
+              type="text"
+              name="firstName"
+              className="form-input"
+              value={formData.firstName}
+              onChange={handleInputChange}
+              placeholder="Enter your first name"
+            />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Last Name</label>
+            <input
+              type="text"
+              name="lastName"
+              className="form-input"
+              value={formData.lastName}
+              onChange={handleInputChange}
+              placeholder="Enter your last name"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="account-button primary"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <span className="loading-spinner"></span>
+                Updating...
+              </>
+            ) : (
+              'Update Profile'
+            )}
+          </button>
+        </form>
+      </div>
+
+      {/* Email Section */}
+      <div className="account-section">
+        <div className="section-header">
+          <h2 className="section-title">Email Address</h2>
+          <p className="section-description">Change your email address and verification status.</p>
+        </div>
+
+        <form
+          onSubmit={handleUpdateEmail}
+          className="account-form"
+        >
+          <div className="form-group">
+            <label className="form-label">Email</label>
+            <input
+              type="email"
+              name="email"
+              className="form-input"
+              value={formData.email}
+              onChange={handleInputChange}
+              placeholder="Enter your email address"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="account-button primary"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <span className="loading-spinner"></span>
+                Updating...
+              </>
+            ) : (
+              'Update Email'
+            )}
+          </button>
+        </form>
+      </div>
+
+      {/* Password Section */}
+      <div className="account-section">
+        <div className="section-header">
+          <h2 className="section-title">Password</h2>
+          <p className="section-description">Change your account password securely.</p>
+        </div>
+
+        {!showPasswordForm ? (
+          <button
+            onClick={() => setShowPasswordForm(true)}
+            className="account-button primary"
+          >
+            Change Password
+          </button>
+        ) : (
+          <form
+            onSubmit={handleUpdatePassword}
+            className="account-form"
+          >
+            <div className="form-group">
+              <label className="form-label">Current Password</label>
+              <input
+                type="password"
+                name="currentPassword"
+                className="form-input"
+                value={formData.currentPassword}
+                onChange={handleInputChange}
+                placeholder="Enter your current password"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">New Password</label>
+              <input
+                type="password"
+                name="newPassword"
+                className="form-input"
+                value={formData.newPassword}
+                onChange={handleInputChange}
+                placeholder="Enter your new password"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">Confirm New Password</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                className="form-input"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                placeholder="Confirm your new password"
+                required
+              />
+            </div>
+
+            <div className="button-group">
+              <button
+                type="submit"
+                className="account-button primary"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <span className="loading-spinner"></span>
+                    Updating...
+                  </>
+                ) : (
+                  'Update Password'
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setShowPasswordForm(false);
+                  setFormData((prev) => ({
+                    ...prev,
+                    currentPassword: '',
+                    newPassword: '',
+                    confirmPassword: '',
+                  }));
+                }}
+                className="account-button secondary"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
+
+      {/* Account Info Section */}
+      <div className="account-section">
+        <div className="section-header">
+          <h2 className="section-title">Account Information</h2>
+          <p className="section-description">View your account details and metadata.</p>
+        </div>
+
+        <div className="info-list">
+          <div className="info-item">
+            <span className="info-label">User ID</span>
+            <span className="info-value">{user.uid}</span>
+          </div>
+          <div className="info-item">
+            <span className="info-label">Email Verified</span>
+            <span className={`info-value ${user.emailVerified ? 'verified' : 'unverified'}`}>{user.emailVerified ? 'Yes' : 'No'}</span>
+          </div>
+          <div className="info-item">
+            <span className="info-label">Account Created</span>
+            <span className="info-value">{user.metadata.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString() : 'Unknown'}</span>
+          </div>
+          <div className="info-item">
+            <span className="info-label">Last Sign In</span>
+            <span className="info-value">
+              {user.metadata.lastSignInTime ? new Date(user.metadata.lastSignInTime).toLocaleDateString() : 'Unknown'}
+            </span>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+
+  const renderStats = () => (
+    <>
+      <div className="account-section">
+        <div className="section-header">
+          <h2 className="section-title">Usage Statistics</h2>
+          <p className="section-description">View your account usage and activity metrics.</p>
+        </div>
+        <div className="coming-soon">
+          <p>🚧 &nbsp;Statistics feature coming soon. This will display your usage data and activity metrics.</p>
+        </div>
+      </div>
+
+      <div className="account-section">
+        <div className="section-header">
+          <h2 className="section-title">Activity Overview</h2>
+          <p className="section-description">Track your recent activities and engagement.</p>
+        </div>
+        <div className="coming-soon">
+          <p>🚧 &nbsp;Activity tracking feature coming soon. This will show your recent interactions and engagement metrics.</p>
+        </div>
+      </div>
+
+      <div className="account-section">
+        <div className="section-header">
+          <h2 className="section-title">Performance Metrics</h2>
+          <p className="section-description">Monitor your account performance and trends.</p>
+        </div>
+        <div className="coming-soon">
+          <p>🚧 &nbsp;Performance analytics feature coming soon. This will provide detailed insights into your account performance.</p>
+        </div>
+      </div>
+    </>
+  );
+
   if (!user) {
     return (
       <div className="main-container">
-        <div className="content-section">
-          <h1 className="header">Account</h1>
-          <p className="text">Please sign in to access your account settings.</p>
+        <div className="account-container">
+          <div className="account-hero">
+            <h1 className="account-title">Account Settings</h1>
+            <p className="account-subtitle">Please sign in to access your account settings.</p>
+          </div>
         </div>
       </div>
     );
@@ -134,255 +414,23 @@ const Account = () => {
 
   return (
     <div className="main-container">
-      <div
-        className="content-section"
-        style={{ maxWidth: '600px' }}
-      >
-        <h1 className="header">Account Settings</h1>
-        <p className="text">Manage your account information and preferences.</p>
-
-        {message.text && <div className={`${message.type === 'error' ? 'error-message' : 'success-message'}`}>{message.text}</div>}
-
-        {/* Profile Information */}
-        <div
-          style={{
-            background: 'var(--bg-tertiary)',
-            padding: '25px',
-            borderRadius: '15px',
-            border: '1px solid var(--border)',
-            marginBottom: '30px',
-            transition: 'all 0.3s ease',
-          }}
-        >
-          <h3
-            style={{
-              fontSize: '1.5rem',
-              marginBottom: '20px',
-              color: 'var(--text-primary)',
-              fontWeight: '600',
-              transition: 'color 0.3s ease',
-            }}
-          >
-            Profile Information
-          </h3>
-
-          <form onSubmit={handleUpdateProfile}>
-            <div className="form-group">
-              <label className="form-label">Display Name</label>
-              <input
-                type="text"
-                name="displayName"
-                className="form-input"
-                value={formData.displayName}
-                onChange={handleInputChange}
-                placeholder="Enter your display name"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="form-button"
-              disabled={loading}
-              style={{ opacity: loading ? 0.7 : 1 }}
-            >
-              {loading ? 'Updating...' : 'Update Profile'}
-            </button>
-          </form>
+      <div className="account-container">
+        {/* Header */}
+        <div className="account-hero">
+          <h1 className="account-title">Account settings</h1>
         </div>
 
-        {/* Email Settings */}
-        <div
-          style={{
-            background: 'var(--bg-tertiary)',
-            padding: '25px',
-            borderRadius: '15px',
-            border: '1px solid var(--border)',
-            marginBottom: '30px',
-            transition: 'all 0.3s ease',
-          }}
-        >
-          <h3
-            style={{
-              fontSize: '1.5rem',
-              marginBottom: '20px',
-              color: 'var(--text-primary)',
-              fontWeight: '600',
-              transition: 'color 0.3s ease',
-            }}
-          >
-            Email Address
-          </h3>
-
-          <form onSubmit={handleUpdateEmail}>
-            <div className="form-group">
-              <label className="form-label">Email</label>
-              <input
-                type="email"
-                name="email"
-                className="form-input"
-                value={formData.email}
-                onChange={handleInputChange}
-                placeholder="Enter your email address"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="form-button"
-              disabled={loading}
-              style={{ opacity: loading ? 0.7 : 1 }}
-            >
-              {loading ? 'Updating...' : 'Update Email'}
-            </button>
-          </form>
-        </div>
-
-        {/* Password Settings */}
-        <div
-          style={{
-            background: 'var(--bg-tertiary)',
-            padding: '25px',
-            borderRadius: '15px',
-            border: '1px solid var(--border)',
-            transition: 'all 0.3s ease',
-          }}
-        >
-          <h3
-            style={{
-              fontSize: '1.5rem',
-              marginBottom: '20px',
-              color: 'var(--text-primary)',
-              fontWeight: '600',
-              transition: 'color 0.3s ease',
-            }}
-          >
-            Password
-          </h3>
-
-          {!showPasswordForm ? (
-            <button
-              onClick={() => setShowPasswordForm(true)}
-              className="form-button"
-              style={{ width: 'auto', padding: '12px 24px' }}
-            >
-              Change Password
-            </button>
-          ) : (
-            <form onSubmit={handleUpdatePassword}>
-              <div className="form-group">
-                <label className="form-label">Current Password</label>
-                <input
-                  type="password"
-                  name="currentPassword"
-                  className="form-input"
-                  value={formData.currentPassword}
-                  onChange={handleInputChange}
-                  placeholder="Enter your current password"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">New Password</label>
-                <input
-                  type="password"
-                  name="newPassword"
-                  className="form-input"
-                  value={formData.newPassword}
-                  onChange={handleInputChange}
-                  placeholder="Enter your new password"
-                  required
-                />
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Confirm New Password</label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  className="form-input"
-                  value={formData.confirmPassword}
-                  onChange={handleInputChange}
-                  placeholder="Confirm your new password"
-                  required
-                />
-              </div>
-
-              <div style={{ display: 'flex', gap: '10px' }}>
-                <button
-                  type="submit"
-                  className="form-button"
-                  disabled={loading}
-                  style={{ opacity: loading ? 0.7 : 1, flex: 1 }}
-                >
-                  {loading ? 'Updating...' : 'Update Password'}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowPasswordForm(false);
-                    setFormData((prev) => ({
-                      ...prev,
-                      currentPassword: '',
-                      newPassword: '',
-                      confirmPassword: '',
-                    }));
-                  }}
-                  style={{
-                    padding: '12px 24px',
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border)',
-                    borderRadius: '10px',
-                    color: 'var(--text-primary)',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                  }}
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          )}
-        </div>
-
-        {/* Account Info */}
-        <div
-          style={{
-            background: 'var(--bg-tertiary)',
-            padding: '25px',
-            borderRadius: '15px',
-            border: '1px solid var(--border)',
-            marginTop: '30px',
-            transition: 'all 0.3s ease',
-          }}
-        >
-          <h3
-            style={{
-              fontSize: '1.5rem',
-              marginBottom: '20px',
-              color: 'var(--text-primary)',
-              fontWeight: '600',
-              transition: 'color 0.3s ease',
-            }}
-          >
-            Account Information
-          </h3>
-
-          <div style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-            <p>
-              <strong>User ID:</strong> {user.uid}
-            </p>
-            <p>
-              <strong>Email Verified:</strong> {user.emailVerified ? 'Yes' : 'No'}
-            </p>
-            <p>
-              <strong>Account Created:</strong> {user.metadata.creationTime ? new Date(user.metadata.creationTime).toLocaleDateString() : 'Unknown'}
-            </p>
-            <p>
-              <strong>Last Sign In:</strong> {user.metadata.lastSignInTime ? new Date(user.metadata.lastSignInTime).toLocaleDateString() : 'Unknown'}
-            </p>
-          </div>
-        </div>
+        {/* Tabs */}
+        <Tab.Group defaultIndex={defaultTabIndex}>
+          <Tab.List className="account-tabs">
+            <Tab className={({ selected }) => `tab-button ${selected ? 'active' : ''}`}>Account Settings</Tab>
+            <Tab className={({ selected }) => `tab-button ${selected ? 'active' : ''}`}>Stats</Tab>
+          </Tab.List>
+          <Tab.Panels className="tab-content">
+            <Tab.Panel className="tab-panel">{renderAccountSettings()}</Tab.Panel>
+            <Tab.Panel className="tab-panel">{renderStats()}</Tab.Panel>
+          </Tab.Panels>
+        </Tab.Group>
       </div>
     </div>
   );
