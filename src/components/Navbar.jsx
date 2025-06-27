@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react';
-import { ChartBarIcon, UserIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, ChartBarIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
@@ -134,6 +134,42 @@ const styles = {
     transition: 'all 0.3s ease',
     fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
   },
+  mobileMenuButton: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '8px',
+    backgroundColor: 'var(--bg-tertiary)',
+    border: '1px solid var(--border)',
+    borderRadius: '6px',
+    color: 'var(--text-primary)',
+    cursor: 'pointer',
+    transition: 'all 0.3s ease',
+  },
+  mobileMenu: {
+    position: 'absolute',
+    top: '100%',
+    left: 0,
+    right: 0,
+    backgroundColor: 'var(--bg-secondary)',
+    border: '1px solid var(--border)',
+    borderTop: 'none',
+    borderRadius: '0 0 8px 8px',
+    boxShadow: '0 10px 25px var(--shadow)',
+    zIndex: 1000,
+    padding: '16px',
+  },
+  mobileMenuItem: {
+    display: 'block',
+    padding: '12px 16px',
+    color: 'var(--text-primary)',
+    fontSize: '16px',
+    fontWeight: '500',
+    fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    textDecoration: 'none',
+    borderBottom: '1px solid var(--border)',
+    transition: 'background-color 0.2s ease',
+  },
 };
 
 // Reusable components
@@ -193,6 +229,8 @@ const Navbar = () => {
   const location = useLocation();
   const [user, setUser] = useState(auth.currentUser);
   const buttonRef = useRef(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -225,9 +263,42 @@ const Navbar = () => {
     };
   }, []);
 
+  // Mobile detection
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const isActive = (path) => {
     return location.pathname === path;
   };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.classList.add('mobile-menu-open');
+    } else {
+      document.body.classList.remove('mobile-menu-open');
+    }
+
+    return () => {
+      document.body.classList.remove('mobile-menu-open');
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <nav style={styles.nav}>
@@ -239,97 +310,124 @@ const Navbar = () => {
           Clutch
         </Link>
 
-        {/* Center Navigation */}
-        <div style={styles.navLinks}>
-          <NavLink
-            to="/"
-            isActive={isActive('/')}
-          >
-            Home
-          </NavLink>
-          <NavLink
-            to="/about"
-            isActive={isActive('/about')}
-          >
-            About
-          </NavLink>
-          <NavLink
-            to="/contact"
-            isActive={isActive('/contact')}
-          >
-            Contact
-          </NavLink>
-        </div>
+        {/* Desktop Navigation */}
+        {!isMobile && (
+          <div style={styles.navLinks}>
+            <NavLink
+              to="/"
+              isActive={isActive('/')}
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/about"
+              isActive={isActive('/about')}
+            >
+              About
+            </NavLink>
+            <NavLink
+              to="/contact"
+              isActive={isActive('/contact')}
+            >
+              Contact
+            </NavLink>
+          </div>
+        )}
 
         {/* Right Side - User Actions & Theme Toggle */}
         <div style={styles.rightSection}>
           {user ? (
             <>
-              <Menu
-                as="div"
-                style={styles.dropdownContainer}
-              >
-                <div>
-                  <Menu.Button
-                    ref={buttonRef}
-                    className="dropdown-button"
-                    style={styles.dropdownButton}
-                    onMouseEnter={(e) => {
-                      e.target.style.transform = 'translateY(-1px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    <span>{user.displayName || user.email}</span>
-                  </Menu.Button>
-                </div>
-
-                <Transition
-                  enter="transition ease-out duration-150"
-                  enterFrom="opacity-0 scale-95 -translate-y-1"
-                  enterTo="opacity-100 scale-100 translate-y-0"
-                  leave="transition ease-in duration-100"
-                  leaveFrom="opacity-100 scale-100 translate-y-0"
-                  leaveTo="opacity-0 scale-95 -translate-y-1"
+              {/* Desktop User Menu */}
+              {!isMobile && (
+                <Menu
+                  as="div"
+                  style={styles.dropdownContainer}
                 >
-                  <Menu.Items style={styles.dropdownMenu}>
-                    <div>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <DropdownItem
-                            to="/account"
-                            icon={UserIcon}
-                            active={active}
-                          >
-                            Account Settings
-                          </DropdownItem>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <DropdownItem
-                            to="/account?tab=stats"
-                            icon={ChartBarIcon}
-                            active={active}
-                          >
-                            Stats
-                          </DropdownItem>
-                        )}
-                      </Menu.Item>
-                      <div style={styles.separator}></div>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <SignOutButton
-                            active={active}
-                            onClick={handleSignOut}
-                          />
-                        )}
-                      </Menu.Item>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
+                  <div>
+                    <Menu.Button
+                      ref={buttonRef}
+                      className="dropdown-button"
+                      style={styles.dropdownButton}
+                      onMouseEnter={(e) => {
+                        e.target.style.transform = 'translateY(-1px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.transform = 'translateY(0)';
+                      }}
+                    >
+                      <span>{user.displayName || user.email}</span>
+                    </Menu.Button>
+                  </div>
+
+                  <Transition
+                    enter="transition ease-out duration-150"
+                    enterFrom="opacity-0 scale-95 -translate-y-1"
+                    enterTo="opacity-100 scale-100 translate-y-0"
+                    leave="transition ease-in duration-100"
+                    leaveFrom="opacity-100 scale-100 translate-y-0"
+                    leaveTo="opacity-0 scale-95 -translate-y-1"
+                  >
+                    <Menu.Items style={styles.dropdownMenu}>
+                      <div>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <DropdownItem
+                              to="/account"
+                              icon={UserIcon}
+                              active={active}
+                            >
+                              Account Settings
+                            </DropdownItem>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <DropdownItem
+                              to="/account?tab=stats"
+                              icon={ChartBarIcon}
+                              active={active}
+                            >
+                              Stats
+                            </DropdownItem>
+                          )}
+                        </Menu.Item>
+                        <div style={styles.separator}></div>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <SignOutButton
+                              active={active}
+                              onClick={handleSignOut}
+                            />
+                          )}
+                        </Menu.Item>
+                      </div>
+                    </Menu.Items>
+                  </Transition>
+                </Menu>
+              )}
+
+              {/* Mobile Menu Button */}
+              {isMobile && (
+                <button
+                  onClick={toggleMobileMenu}
+                  style={styles.mobileMenuButton}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = 'var(--bg-secondary)';
+                    e.target.style.transform = 'translateY(-1px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = 'var(--bg-tertiary)';
+                    e.target.style.transform = 'translateY(0)';
+                  }}
+                >
+                  {isMobileMenuOpen ? (
+                    <XMarkIcon style={{ width: '20px', height: '20px' }} />
+                  ) : (
+                    <Bars3Icon style={{ width: '20px', height: '20px' }} />
+                  )}
+                </button>
+              )}
             </>
           ) : (
             <div
@@ -352,6 +450,124 @@ const Navbar = () => {
           <ThemeToggle />
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMobile && isMobileMenuOpen && (
+        <div style={styles.mobileMenu}>
+          <div style={{ marginBottom: '16px' }}>
+            <div
+              style={{
+                padding: '12px 16px',
+                borderBottom: '1px solid var(--border)',
+                marginBottom: '8px',
+              }}
+            >
+              <span
+                style={{
+                  fontSize: '14px',
+                  color: 'var(--text-secondary)',
+                  fontWeight: '500',
+                }}
+              >
+                Navigation
+              </span>
+            </div>
+            <Link
+              to="/"
+              style={{
+                ...styles.mobileMenuItem,
+                backgroundColor: isActive('/') ? 'var(--bg-tertiary)' : 'transparent',
+              }}
+              onClick={closeMobileMenu}
+            >
+              Home
+            </Link>
+            <Link
+              to="/about"
+              style={{
+                ...styles.mobileMenuItem,
+                backgroundColor: isActive('/about') ? 'var(--bg-tertiary)' : 'transparent',
+              }}
+              onClick={closeMobileMenu}
+            >
+              About
+            </Link>
+            <Link
+              to="/contact"
+              style={{
+                ...styles.mobileMenuItem,
+                backgroundColor: isActive('/contact') ? 'var(--bg-tertiary)' : 'transparent',
+              }}
+              onClick={closeMobileMenu}
+            >
+              Contact
+            </Link>
+          </div>
+
+          {user && (
+            <div>
+              <div
+                style={{
+                  padding: '12px 16px',
+                  borderBottom: '1px solid var(--border)',
+                  marginBottom: '8px',
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: '14px',
+                    color: 'var(--text-secondary)',
+                    fontWeight: '500',
+                  }}
+                >
+                  Account
+                </span>
+              </div>
+              <div
+                style={{
+                  padding: '8px 16px',
+                  fontSize: '14px',
+                  color: 'var(--text-secondary)',
+                  borderBottom: '1px solid var(--border)',
+                  marginBottom: '8px',
+                }}
+              >
+                {user.displayName || user.email}
+              </div>
+              <Link
+                to="/account"
+                style={styles.mobileMenuItem}
+                onClick={closeMobileMenu}
+              >
+                Account Settings
+              </Link>
+              <Link
+                to="/account?tab=stats"
+                style={styles.mobileMenuItem}
+                onClick={closeMobileMenu}
+              >
+                Stats
+              </Link>
+              <button
+                onClick={() => {
+                  handleSignOut();
+                  closeMobileMenu();
+                }}
+                style={{
+                  ...styles.mobileMenuItem,
+                  width: '100%',
+                  textAlign: 'left',
+                  color: 'var(--error)',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                Sign Out
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </nav>
   );
 };

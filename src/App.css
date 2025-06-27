@@ -2384,3 +2384,55 @@ body {
     padding: 24px;
   }
 }
+
+/* Mobile Responsive Styles */
+@media (max-width: 767px) {
+  .navbar-logo {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+  }
+
+  .navbar-signup-button {
+    font-size: 13px !important;
+    padding: 6px 10px !important;
+  }
+
+  /* Ensure mobile menu doesn't interfere with other elements */
+  .mobile-menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 999;
+  }
+
+  /* Mobile menu animations */
+  .mobile-menu-enter {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  .mobile-menu-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 200ms ease-out, transform 200ms ease-out;
+  }
+
+  .mobile-menu-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .mobile-menu-exit-active {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 200ms ease-in, transform 200ms ease-in;
+  }
+}
+
+/* Prevent body scroll when mobile menu is open */
+body.mobile-menu-open {
+  overflow: hidden;
+}
