@@ -3,11 +3,12 @@ import { EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification,
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { auth } from '../firebase';
+import { getUserFromSupabase, updateUserProfile } from '../services/userService';
 
 const Account = () => {
   const user = auth.currentUser;
   const [searchParams] = useSearchParams();
-  const defaultTabIndex = searchParams.get('tab') === 'stats' ? 1 : 0;
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
@@ -24,16 +25,46 @@ const Account = () => {
 
   useEffect(() => {
     if (user) {
-      const displayNameParts = user.displayName ? user.displayName.split(' ') : ['', ''];
-      setFormData((prev) => ({
-        ...prev,
-        displayName: user.displayName || '',
-        firstName: displayNameParts[0] || '',
-        lastName: displayNameParts.slice(1).join(' ') || '',
-        email: user.email || '',
-      }));
+      const loadUserData = async () => {
+        try {
+          // Load user data from Supabase
+          const supabaseUser = await getUserFromSupabase(user.uid);
+
+          const displayNameParts = user.displayName ? user.displayName.split(' ') : ['', ''];
+          setFormData((prev) => ({
+            ...prev,
+            displayName: user.displayName || '',
+            firstName: supabaseUser?.first_name || displayNameParts[0] || '',
+            lastName: supabaseUser?.last_name || displayNameParts.slice(1).join(' ') || '',
+            email: user.email || '',
+          }));
+        } catch (error) {
+          console.error('Error loading user data:', error);
+          // Fallback to Firebase display name parsing
+          const displayNameParts = user.displayName ? user.displayName.split(' ') : ['', ''];
+          setFormData((prev) => ({
+            ...prev,
+            displayName: user.displayName || '',
+            firstName: displayNameParts[0] || '',
+            lastName: displayNameParts.slice(1).join(' ') || '',
+            email: user.email || '',
+          }));
+        }
+      };
+
+      loadUserData();
     }
   }, [user]);
+
+  // Watch for URL parameter changes to switch tabs
+  useEffect(() => {
+    const tabParam = searchParams.get('tab');
+    if (tabParam === 'stats') {
+      setSelectedTabIndex(1);
+    } else {
+      setSelectedTabIndex(0);
+    }
+  }, [searchParams]);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -53,10 +84,18 @@ const Account = () => {
 
     setLoading(true);
     try {
+      // Update Firebase display name
       await updateProfile(user, {
         displayName: formData.displayName,
         photoURL: user.photoURL,
       });
+
+      // Update first and last names in Supabase
+      await updateUserProfile(user.uid, {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+      });
+
       showMessage('Profile updated successfully!');
     } catch (error) {
       console.error('Error updating profile:', error);
@@ -421,7 +460,10 @@ const Account = () => {
         </div>
 
         {/* Tabs */}
-        <Tab.Group defaultIndex={defaultTabIndex}>
+        <Tab.Group
+          selectedIndex={selectedTabIndex}
+          onChange={setSelectedTabIndex}
+        >
           <Tab.List className="account-tabs">
             <Tab className={({ selected }) => `tab-button ${selected ? 'active' : ''}`}>Account Settings</Tab>
             <Tab className={({ selected }) => `tab-button ${selected ? 'active' : ''}`}>Stats</Tab>

@@ -1,7 +1,8 @@
 /* src/index.css */
 
+/* Base styles */
 body {
-  font-family: 'Roboto', sans-serif; /* Apply the font globally */
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -15,28 +16,31 @@ html {
   height: 100%;
 }
 
-.map-container {
-  height: 100%;
-  width: 100%;
-}
-
+/* Typography */
 h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
-  font-weight: 500; /* Slightly bolder for headings */
+  font-weight: 500;
 }
 
 button {
-  font-family: inherit; /* Ensure buttons inherit the global font */
+  font-family: inherit;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+/* Map container */
+.map-container {
+  height: 100%;
+  width: 100%;
+}
+
+/* Navigation styles */
 .navbar-link {
   color: white;
   font-weight: normal;
@@ -44,7 +48,7 @@ code {
 }
 
 .navbar-link:hover {
-  color: #38bdf8; /* Teal color */
+  color: #38bdf8;
   font-weight: bold;
 }
 
@@ -76,51 +80,65 @@ code {
 .opacity-0 {
   opacity: 0;
 }
-
 .opacity-100 {
   opacity: 1;
 }
-
 .scale-95 {
   transform: scale(0.95);
 }
-
 .scale-100 {
   transform: scale(1);
 }
-
 .-translate-y-1 {
   transform: translateY(-4px);
 }
-
 .translate-y-0 {
   transform: translateY(0);
 }
 
-/* Dropdown Animation */
-.dropdown-enter {
-  opacity: 0;
-  transform: scale(0.95) translateY(-4px);
+/* Dropdown styles */
+.dropdown-button {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  background-color: var(--bg-tertiary) !important;
+  box-shadow: none !important;
+  outline: none !important;
 }
 
-.dropdown-enter-active {
-  opacity: 1;
-  transform: scale(1) translateY(0);
-  transition: opacity 0.15s ease-out, transform 0.15s ease-out;
+/* Text selection prevention */
+.dropdown-button::selection,
+.dropdown-button::-moz-selection {
+  background: transparent;
 }
 
-.dropdown-exit {
-  opacity: 1;
-  transform: scale(1) translateY(0);
+/* Focus and state management */
+.dropdown-button:focus,
+.dropdown-button:focus-visible,
+.dropdown-button:active,
+.dropdown-button:focus-within,
+.dropdown-button:visited,
+.dropdown-button:link {
+  outline: none !important;
+  background-color: var(--bg-tertiary) !important;
+  box-shadow: none !important;
 }
 
-.dropdown-exit-active {
-  opacity: 0;
-  transform: scale(0.95) translateY(-4px);
-  transition: opacity 0.1s ease-in, transform 0.1s ease-in;
+.dropdown-button:hover {
+  background-color: var(--bg-secondary) !important;
+  box-shadow: none !important;
 }
 
-/* Remove focus outlines from dropdown */
+/* Pseudo-element reset */
+.dropdown-button::before,
+.dropdown-button::after {
+  display: none !important;
+}
+
+/* Headless UI state management */
 [data-headlessui-state] {
   outline: none !important;
 }
@@ -129,21 +147,21 @@ code {
   outline: none !important;
 }
 
-/* Prevent text selection on dropdown button */
-.dropdown-button {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-touch-callout: none;
-  -webkit-tap-highlight-color: transparent;
+/* Persistent hover state when dropdown is open */
+[data-headlessui-state='open'] .dropdown-button,
+[data-headlessui-state='open'] .dropdown-button:hover {
+  background-color: var(--bg-secondary) !important;
 }
 
-/* Remove text selection highlight */
-.dropdown-button::selection {
-  background: transparent;
-}
-
-.dropdown-button::-moz-selection {
-  background: transparent;
+/* Dark mode overrides */
+@media (prefers-color-scheme: dark) {
+  .dropdown-button,
+  .dropdown-button:focus,
+  .dropdown-button:focus-visible,
+  .dropdown-button:active,
+  .dropdown-button:focus-within {
+    background-color: var(--bg-tertiary) !important;
+    box-shadow: none !important;
+    border-color: var(--border) !important;
+  }
 }
