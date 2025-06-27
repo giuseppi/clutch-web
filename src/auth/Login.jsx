@@ -28,100 +28,106 @@ const Login = () => {
   };
 
   return (
-    <div className="main-container">
-      <div className="form-container">
-        <h2 className="auth-header">Welcome Back!</h2>
-        <p className="auth-text">Sign in to your account to continue.</p>
+    <div className="auth-page">
+      <div className="auth-container">
+        {/* Left Side - Form */}
+        <div className="auth-form-section">
+          <div className="auth-form-content">
+            <h1 className="auth-form-title">Welcome back</h1>
+            <p className="auth-form-subtitle">Sign in to your account</p>
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label className="form-label">Email</label>
-            <input
-              type="email"
-              className="form-input"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
-              required
-            />
+            <form
+              onSubmit={handleSubmit}
+              className="auth-form"
+            >
+              <div className="auth-form-group">
+                <label className="auth-form-label">Email</label>
+                <input
+                  type="email"
+                  className="auth-form-input"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                />
+              </div>
+
+              <div className="auth-form-group">
+                <label className="auth-form-label">Password</label>
+                <input
+                  type="password"
+                  className="auth-form-input"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+
+              {error && <div className="auth-error-message">{error}</div>}
+
+              <button
+                type="submit"
+                className="auth-form-button"
+                disabled={loading}
+              >
+                {loading ? (
+                  <>
+                    <span className="loading-spinner"></span>
+                    Signing In...
+                  </>
+                ) : (
+                  'Sign In'
+                )}
+              </button>
+            </form>
+
+            {/* Divider */}
+            <div className="auth-divider">
+              <div className="auth-divider-line"></div>
+              <span className="auth-divider-text">or</span>
+              <div className="auth-divider-line"></div>
+            </div>
+
+            {/* Google Login Button */}
+            <GoogleLoginButton />
+
+            <div className="auth-footer">
+              <p className="auth-footer-text">
+                Don't have an account?{' '}
+                <Link
+                  to="/signup"
+                  className="auth-footer-link"
+                >
+                  Sign Up Now
+                </Link>
+              </p>
+            </div>
           </div>
-
-          <div className="form-group">
-            <label className="form-label">Password</label>
-            <input
-              type="password"
-              className="form-input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-
-          {error && <div className="error-message">{error}</div>}
-
-          <button
-            type="submit"
-            className="form-button"
-            disabled={loading}
-            style={{ opacity: loading ? 0.7 : 1 }}
-          >
-            {loading ? (
-              <>
-                <span className="loading-spinner"></span>
-                Signing In...
-              </>
-            ) : (
-              'Sign In'
-            )}
-          </button>
-        </form>
-
-        {/* Divider */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            margin: '30px 0',
-            color: 'var(--text-secondary)',
-          }}
-        >
-          <div
-            style={{
-              flex: 1,
-              height: '1px',
-              background: 'var(--border)',
-            }}
-          ></div>
-          <span
-            style={{
-              padding: '0 15px',
-              fontSize: '14px',
-              fontWeight: '500',
-            }}
-          >
-            or
-          </span>
-          <div
-            style={{
-              flex: 1,
-              height: '1px',
-              background: 'var(--border)',
-            }}
-          ></div>
         </div>
 
-        {/* Google Login Button */}
-        <GoogleLoginButton />
-
-        <div style={{ marginTop: '30px', textAlign: 'center' }}>
-          <p style={{ color: 'var(--text-secondary)', marginBottom: '15px', fontSize: '13px' }}>Don't have an account?</p>
-          <Link
-            to="/signup"
-            className="link"
-          >
-            Create a new account
-          </Link>
+        {/* Right Side - Content */}
+        <div className="auth-content-section">
+          <div className="auth-content">
+            <h2 className="auth-content-title">Join the Basketball Revolution.</h2>
+            <p className="auth-content-subtitle">
+              Connect with courts and players in your area. Find verified locations, join pickup games, and never wait for a court again.
+            </p>
+            <div className="auth-features">
+              <div className="auth-feature">
+                <div className="auth-feature-icon">🏀</div>
+                <div className="auth-feature-text">Find courts instantly</div>
+              </div>
+              <div className="auth-feature">
+                <div className="auth-feature-icon">👥</div>
+                <div className="auth-feature-text">Join game queues</div>
+              </div>
+              <div className="auth-feature">
+                <div className="auth-feature-icon">✅</div>
+                <div className="auth-feature-text">Verified locations</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
