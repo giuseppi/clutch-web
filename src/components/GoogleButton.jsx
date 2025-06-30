@@ -1,38 +1,59 @@
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
+
+// Encapsulate Google login logic in a class for OOP clarity
+class GoogleAuthHandler {
+  constructor(auth, provider) {
+    this.auth = auth;
+    this.provider = provider;
+  }
+
+  async signIn() {
+    return await signInWithPopup(this.auth, this.provider);
+  }
+}
 
 const GoogleLoginButton = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    isMounted.current = true;
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
 
   const isSignupPage = location.pathname === '/signup';
   const buttonText = isSignupPage ? 'Sign up with Google' : 'Login with Google';
 
+  // Modularized Google login logic
   async function handleGoogleLogin() {
     setIsLoading(true);
     setErrorMessage('');
+    const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+    const googleHandler = new GoogleAuthHandler(auth, provider);
 
     try {
-      const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({ prompt: 'select_account' });
-      const result = await signInWithPopup(auth, provider);
+      await googleHandler.signIn();
       // If you have syncUserToSupabase, call it here
-      // await syncUserToSupabase(result.user);
+      // await syncUserToSupabase(user);
       navigate('/');
     } catch (error) {
       if (error.code === 'auth/popup-closed-by-user') {
-        console.warn('User closed the login popup.');
         setErrorMessage('Login was canceled. Please try again.');
       } else {
-        console.error('Unexpected login error:', error);
         setErrorMessage('Login failed. Please try again.');
+        console.error('Unexpected login error:', error);
       }
     } finally {
-      setIsLoading(false);
+      if (isMounted.current) setIsLoading(false);
     }
   }
 
