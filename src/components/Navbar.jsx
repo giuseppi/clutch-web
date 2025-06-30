@@ -2,7 +2,9 @@ import { Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, ChartBarIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import React, { useEffect, useRef, useState } from 'react';
+import { FaBasketballBall } from 'react-icons/fa';
 import { Link, useLocation } from 'react-router-dom';
+import { useTheme } from '../contexts/useTheme';
 import { auth } from '../firebase';
 import ThemeToggle from './ThemeToggle';
 
@@ -233,6 +235,7 @@ const Navbar = () => {
   const buttonRef = useRef(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -308,8 +311,9 @@ const Navbar = () => {
         <Link
           to="/"
           className="navbar-logo"
+          style={{ display: 'flex', alignItems: 'center', gap: 8 }}
         >
-          Clutch
+          <FaBasketballBall style={{ color: theme === 'dark' ? '#667eea' : '#60a5fa', fontSize: 32, verticalAlign: 'middle' }} />
         </Link>
 
         {/* Desktop Navigation */}

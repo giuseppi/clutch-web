@@ -1,6 +1,7 @@
 import { Tab } from '@headlessui/react';
 import { EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification, updateEmail, updatePassword, updateProfile } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
+import { FaBasketballBall } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
 import { auth } from '../firebase';
 import { getUserFromSupabase, updateUserProfile } from '../services/userService';
