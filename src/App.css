@@ -44,7 +44,7 @@
   --shadow-focus: 0 0 0 3px rgba(102, 126, 234, 0.1);
 
   /* Google Button Colors */
-  --google-button-bg: #f8fafc;
+  --google-button-bg: #ffffff;
   --google-button-border: #e2e8f0;
   --google-button-border-hover: #cbd5e1;
   --google-button-text: #374151;
@@ -86,10 +86,10 @@
   --warning: var(--dark-warning);
 
   /* Dark theme Google button colors */
-  --google-button-bg: #2d2d2d;
-  --google-button-border: #404040;
-  --google-button-border-hover: #525252;
-  --google-button-text: #b3b3b3;
+  --google-button-bg: #ffffff;
+  --google-button-border: #e2e8f0;
+  --google-button-border-hover: #cbd5e1;
+  --google-button-text: #374151;
 
   /* Dark theme gradients and shadows */
   --gradient-primary: var(--gradient-secondary);
