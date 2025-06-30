@@ -6,64 +6,41 @@ import { auth } from '../firebase';
 const GoogleLoginButton = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const isSignupPage = location.pathname === '/signup';
   const buttonText = isSignupPage ? 'Sign up with Google' : 'Login with Google';
 
-  const signInWithGoogle = async () => {
-    setLoading(true);
-    setError('');
+  async function handleGoogleLogin() {
+    setIsLoading(true);
+    setErrorMessage('');
 
     try {
       const provider = new GoogleAuthProvider();
-      provider.setCustomParameters({
-        prompt: 'select_account',
-      });
-
+      provider.setCustomParameters({ prompt: 'select_account' });
       const result = await signInWithPopup(auth, provider);
-      console.log('Google sign-in successful:', result.user);
-
-      // Navigate to home page after successful login
+      // If you have syncUserToSupabase, call it here
+      // await syncUserToSupabase(result.user);
       navigate('/');
     } catch (error) {
       if (error.code === 'auth/popup-closed-by-user') {
-        // Silently ignore or show a subtle message
         console.warn('User closed the login popup.');
-        // setError('Sign-in was cancelled.'); // Uncomment if you want to show a message
+        setErrorMessage('Login was canceled. Please try again.');
       } else {
-        console.error('Error signing in with Google:', error);
-
-        // Provide user-friendly error messages
-        let errorMessage = 'Failed to sign in with Google.';
-
-        switch (error.code) {
-          case 'auth/popup-blocked':
-            errorMessage = 'Pop-up was blocked. Please allow pop-ups for this site.';
-            break;
-          case 'auth/network-request-failed':
-            errorMessage = 'Network error. Please check your internet connection.';
-            break;
-          case 'auth/unauthorized-domain':
-            errorMessage = 'This domain is not authorized for Google sign-in.';
-            break;
-          default:
-            errorMessage = `Sign-in failed: ${error.message}`;
-        }
-
-        setError(errorMessage);
+        console.error('Unexpected login error:', error);
+        setErrorMessage('Login failed. Please try again.');
       }
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
-  };
+  }
 
   return (
     <div style={{ width: '100%' }}>
       <button
-        onClick={signInWithGoogle}
-        disabled={loading}
+        onClick={handleGoogleLogin}
+        disabled={isLoading}
         className="google-button"
         style={{
           width: '100%',
@@ -78,27 +55,27 @@ const GoogleLoginButton = () => {
           fontSize: '16px',
           padding: '15px 30px',
           borderRadius: '10px',
-          cursor: loading ? 'not-allowed' : 'pointer',
+          cursor: isLoading ? 'not-allowed' : 'pointer',
           transition: 'all 0.3s ease',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-          opacity: loading ? 0.7 : 1,
+          opacity: isLoading ? 0.7 : 1,
         }}
         onMouseEnter={(e) => {
-          if (!loading) {
+          if (!isLoading) {
             e.target.style.transform = 'translateY(-2px)';
             e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
             e.target.style.borderColor = 'var(--google-button-border-hover)';
           }
         }}
         onMouseLeave={(e) => {
-          if (!loading) {
+          if (!isLoading) {
             e.target.style.transform = 'translateY(0)';
             e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
             e.target.style.borderColor = 'var(--google-button-border)';
           }
         }}
       >
-        {loading ? (
+        {isLoading ? (
           <>
             <span
               className="loading-spinner"
@@ -121,7 +98,7 @@ const GoogleLoginButton = () => {
         )}
       </button>
 
-      {error && (
+      {errorMessage && (
         <div
           style={{
             color: '#ef4444',
@@ -134,7 +111,7 @@ const GoogleLoginButton = () => {
             border: '1px solid rgba(239, 68, 68, 0.2)',
           }}
         >
-          {error}
+          {errorMessage}
         </div>
       )}
     </div>
