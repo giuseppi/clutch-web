@@ -69,9 +69,9 @@ const GoogleLoginButton = () => {
           alignItems: 'center',
           justifyContent: 'center',
           gap: '12px',
-          background: 'var(--google-button-bg)',
-          border: '2px solid var(--google-button-border)',
-          color: 'var(--google-button-text)',
+          background: '#fff',
+          border: '2px solid #e2e8f0',
+          color: '#374151',
           fontWeight: '600',
           fontSize: '16px',
           padding: '15px 30px',
@@ -81,20 +81,20 @@ const GoogleLoginButton = () => {
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
           opacity: isLoading ? 0.7 : 1,
           position: 'relative',
-          minHeight: '50px', // ensures consistent height
+          minHeight: '50px',
         }}
         onMouseEnter={(e) => {
           if (!isLoading) {
             e.target.style.transform = 'translateY(-2px)';
             e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
-            e.target.style.borderColor = 'var(--google-button-border-hover)';
+            e.target.style.borderColor = '#cbd5e1';
           }
         }}
         onMouseLeave={(e) => {
           if (!isLoading) {
             e.target.style.transform = 'translateY(0)';
             e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.1)';
-            e.target.style.borderColor = 'var(--google-button-border)';
+            e.target.style.borderColor = '#e2e8f0';
           }
         }}
       >
