@@ -1,7 +1,10 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
+import { FaBoltLightning, FaTrophy } from 'react-icons/fa6';
+import { GiBasketballBasket } from 'react-icons/gi';
 import { Link, useNavigate } from 'react-router-dom';
 import GoogleLoginButton from '../components/GoogleButton.jsx';
+import { useTheme } from '../contexts/useTheme';
 import { auth } from '../firebase';
 
 const Signup = () => {
@@ -11,6 +14,7 @@ const Signup = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -149,15 +153,42 @@ const Signup = () => {
             </p>
             <div className="auth-features">
               <div className="auth-feature">
-                <div className="auth-feature-icon">🎯</div>
+                <div className="auth-feature-icon">
+                  <GiBasketballBasket
+                    style={{
+                      color: theme === 'dark' ? 'var(--text-secondary)' : '#334155',
+                      width: 24,
+                      height: 24,
+                      display: 'block',
+                    }}
+                  />
+                </div>
                 <div className="auth-feature-text">Discover nearby courts</div>
               </div>
               <div className="auth-feature">
-                <div className="auth-feature-icon">⚡</div>
+                <div className="auth-feature-icon">
+                  <FaBoltLightning
+                    style={{
+                      color: '#facc15', // yellow-400
+                      width: 24,
+                      height: 24,
+                      display: 'block',
+                    }}
+                  />
+                </div>
                 <div className="auth-feature-text">Instant game matching</div>
               </div>
               <div className="auth-feature">
-                <div className="auth-feature-icon">🏆</div>
+                <div className="auth-feature-icon">
+                  <FaTrophy
+                    style={{
+                      color: '#ffd700', // gold
+                      width: 24,
+                      height: 24,
+                      display: 'block',
+                    }}
+                  />
+                </div>
                 <div className="auth-feature-text">Join tournaments</div>
               </div>
             </div>

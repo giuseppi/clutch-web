@@ -1,7 +1,11 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
+import { FaPeopleGroup } from 'react-icons/fa6';
+import { GiBasketballBasket } from 'react-icons/gi';
+import { MdVerified } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
 import GoogleLoginButton from '../components/GoogleButton.jsx';
+import { useTheme } from '../contexts/useTheme';
 import { auth } from '../firebase';
 
 const Login = () => {
@@ -10,6 +14,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -119,15 +124,42 @@ const Login = () => {
             </p>
             <div className="auth-features">
               <div className="auth-feature">
-                <div className="auth-feature-icon">🏀</div>
+                <div className="auth-feature-icon">
+                  <GiBasketballBasket
+                    style={{
+                      color: theme === 'dark' ? 'var(--text-secondary)' : '#334155',
+                      width: 24,
+                      height: 24,
+                      display: 'block',
+                    }}
+                  />
+                </div>
                 <div className="auth-feature-text">Find courts instantly</div>
               </div>
               <div className="auth-feature">
-                <div className="auth-feature-icon">👥</div>
+                <div className="auth-feature-icon">
+                  <FaPeopleGroup
+                    style={{
+                      color: theme === 'dark' ? 'white' : '#000',
+                      width: 24,
+                      height: 24,
+                      display: 'block',
+                    }}
+                  />
+                </div>
                 <div className="auth-feature-text">Join game queues</div>
               </div>
               <div className="auth-feature">
-                <div className="auth-feature-icon">✅</div>
+                <div className="auth-feature-icon">
+                  <MdVerified
+                    style={{
+                      color: '#22c55e',
+                      width: 24,
+                      height: 24,
+                      display: 'block',
+                    }}
+                  />
+                </div>
                 <div className="auth-feature-text">Verified locations</div>
               </div>
             </div>
