@@ -1,11 +1,16 @@
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
+import { FaPeopleGroup } from 'react-icons/fa6';
+import { GiBasketballBasket } from 'react-icons/gi';
+import { MdVerified } from 'react-icons/md';
 import { Link, useNavigate } from 'react-router-dom';
+import { useTheme } from '../contexts/useTheme';
 import { auth } from '../firebase';
 
 const Home = () => {
   const [user, setUser] = useState(auth.currentUser);
   const navigate = useNavigate();
+  const { theme } = useTheme();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, setUser);
@@ -25,17 +30,37 @@ const Home = () => {
     {
       title: 'Find Courts Instantly',
       description: 'Discover basketball courts near you with real-time availability and ratings.',
-      gradient: 'from-blue-500 to-green-500',
+      icon: (
+        <GiBasketballBasket
+          style={{
+            color: theme === 'dark' ? 'var(--text-secondary)' : '#334155',
+            width: 40,
+            height: 40,
+            margin: '0 auto 20px',
+            display: 'block',
+          }}
+        />
+      ),
     },
     {
       title: 'Join Game Queues',
       description: 'Queue up for pickup games and tournaments with players in your area.',
-      gradient: 'from-purple-500 to-pink-500',
+      icon: (
+        <FaPeopleGroup
+          style={{
+            color: theme === 'dark' ? 'white' : '#000',
+            width: 40,
+            height: 40,
+            margin: '0 auto 20px',
+            display: 'block',
+          }}
+        />
+      ),
     },
     {
       title: 'Verified Locations',
       description: 'All courts are verified and rated by the basketball community.',
-      gradient: 'from-orange-500 to-red-500',
+      icon: <MdVerified style={{ color: '#22c55e', width: 40, height: 40, margin: '0 auto 20px', display: 'block' }} />,
     },
   ];
 
@@ -131,7 +156,7 @@ const Home = () => {
               key={index}
               className="feature-card"
             >
-              <div className={`feature-icon ${feature.gradient}`}></div>
+              {feature.icon}
               <h3 className="feature-title">{feature.title}</h3>
               <p className="feature-description">{feature.description}</p>
             </div>
