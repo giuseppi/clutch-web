@@ -1,5 +1,5 @@
 import { Menu, Transition } from '@headlessui/react';
-import { Bars3Icon, ChartBarIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ArrowRightOnRectangleIcon, Bars3Icon, ChartBarIcon, UserIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import React, { useEffect, useRef, useState } from 'react';
 import { FaBasketballBall } from 'react-icons/fa';
@@ -210,8 +210,12 @@ const SignOutButton = ({ active, onClick }) => (
   <button
     onClick={onClick}
     style={{
-      ...styles.signOutButton,
+      ...styles.dropdownItem,
       backgroundColor: active ? 'rgba(239, 68, 68, 0.1)' : 'transparent',
+      width: '100%',
+      border: 'none',
+      cursor: 'pointer',
+      color: 'var(--error)',
     }}
     onMouseEnter={(e) => {
       e.target.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
@@ -220,6 +224,7 @@ const SignOutButton = ({ active, onClick }) => (
       e.target.style.backgroundColor = active ? 'rgba(239, 68, 68, 0.1)' : 'transparent';
     }}
   >
+    <ArrowRightOnRectangleIcon style={{ ...styles.dropdownIcon, color: 'var(--error)' }} />
     Sign Out
   </button>
 );

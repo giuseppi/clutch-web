@@ -1,20 +1,28 @@
 import React from 'react';
+import { FaChartLine, FaFire, FaGamepad, FaMedal, FaUsers } from 'react-icons/fa';
+import { LuSwords } from 'react-icons/lu';
+import { useTheme } from '../contexts/useTheme';
 
 const About = () => {
+  const { theme } = useTheme();
+
   const storyItems = [
     {
       title: 'Gaming Meets Basketball',
       description:
         "Whether you're new to the game or grinding to prove you're the most clutch player on the court, Clutch makes it easy to find games, track performance, and compete with a purpose.",
+      icon: <FaGamepad style={{ color: '#8b5cf6', width: 40, height: 40, margin: '0 auto 20px', display: 'block' }} />,
     },
     {
       title: 'Real-World Competition',
       description:
         'Inspired by my experiences both on the hardwood and in high-stakes online matches, Clutch blends real-world competition with the power of smart, intuitive design.',
+      icon: <LuSwords style={{ color: '#9ca3af', width: 40, height: 40, margin: '0 auto 20px', display: 'block' }} />,
     },
     {
       title: 'Level Up Together',
       description: "This is more than just an app—it's a platform for players who love to win, learn, and level up together.",
+      icon: <FaChartLine style={{ color: '#22c55e', width: 40, height: 40, margin: '0 auto 20px', display: 'block' }} />,
     },
   ];
 
@@ -22,14 +30,17 @@ const About = () => {
     {
       title: 'Ranked Matchmaking',
       description: 'Bring the competitive structure of esports to basketball with skill-based matchmaking and performance tracking.',
+      icon: <FaMedal style={{ color: '#ef4444', width: 40, height: 40, margin: '0 auto 20px', display: 'block' }} />,
     },
     {
       title: 'Competitive Spirit',
       description: 'Create an environment where every game matters and players can prove their skills on the court.',
+      icon: <FaFire style={{ color: '#f97316', width: 40, height: 40, margin: '0 auto 20px', display: 'block' }} />,
     },
     {
       title: 'Community First',
       description: "Build a community of passionate players who support each other's growth and love for the game.",
+      icon: <FaUsers style={{ color: theme === 'dark' ? 'white' : '#000', width: 40, height: 40, margin: '0 auto 20px', display: 'block' }} />,
     },
   ];
 
@@ -61,6 +72,7 @@ const About = () => {
                 key={index}
                 className="about-card"
               >
+                {item.icon}
                 <h3 className="about-card-title">{item.title}</h3>
                 <p className="about-card-description">{item.description}</p>
               </div>
@@ -81,6 +93,7 @@ const About = () => {
                 key={index}
                 className="about-card"
               >
+                {item.icon}
                 <h3 className="about-card-title">{item.title}</h3>
                 <p className="about-card-description">{item.description}</p>
               </div>
