@@ -28,29 +28,32 @@ const GoogleLoginButton = () => {
       // Navigate to home page after successful login
       navigate('/');
     } catch (error) {
-      console.error('Error signing in with Google:', error);
+      if (error.code === 'auth/popup-closed-by-user') {
+        // Silently ignore or show a subtle message
+        console.warn('User closed the login popup.');
+        // setError('Sign-in was cancelled.'); // Uncomment if you want to show a message
+      } else {
+        console.error('Error signing in with Google:', error);
 
-      // Provide user-friendly error messages
-      let errorMessage = 'Failed to sign in with Google.';
+        // Provide user-friendly error messages
+        let errorMessage = 'Failed to sign in with Google.';
 
-      switch (error.code) {
-        case 'auth/popup-closed-by-user':
-          errorMessage = 'Sign-in was cancelled.';
-          break;
-        case 'auth/popup-blocked':
-          errorMessage = 'Pop-up was blocked. Please allow pop-ups for this site.';
-          break;
-        case 'auth/network-request-failed':
-          errorMessage = 'Network error. Please check your internet connection.';
-          break;
-        case 'auth/unauthorized-domain':
-          errorMessage = 'This domain is not authorized for Google sign-in.';
-          break;
-        default:
-          errorMessage = `Sign-in failed: ${error.message}`;
+        switch (error.code) {
+          case 'auth/popup-blocked':
+            errorMessage = 'Pop-up was blocked. Please allow pop-ups for this site.';
+            break;
+          case 'auth/network-request-failed':
+            errorMessage = 'Network error. Please check your internet connection.';
+            break;
+          case 'auth/unauthorized-domain':
+            errorMessage = 'This domain is not authorized for Google sign-in.';
+            break;
+          default:
+            errorMessage = `Sign-in failed: ${error.message}`;
+        }
+
+        setError(errorMessage);
       }
-
-      setError(errorMessage);
     } finally {
       setLoading(false);
     }
