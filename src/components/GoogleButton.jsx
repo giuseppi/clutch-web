@@ -80,6 +80,8 @@ const GoogleLoginButton = () => {
           transition: 'all 0.3s ease',
           boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
           opacity: isLoading ? 0.7 : 1,
+          position: 'relative',
+          minHeight: '50px', // ensures consistent height
         }}
         onMouseEnter={(e) => {
           if (!isLoading) {
@@ -97,13 +99,24 @@ const GoogleLoginButton = () => {
         }}
       >
         {isLoading ? (
-          <>
+          <span
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '12px',
+              width: '100%',
+              textAlign: 'center',
+              fontWeight: 600,
+              fontSize: 16,
+            }}
+          >
             <span
               className="loading-spinner"
-              style={{ width: '16px', height: '16px' }}
+              style={{ width: '18px', height: '18px' }}
             ></span>
             Signing in...
-          </>
+          </span>
         ) : (
           <>
             <img
