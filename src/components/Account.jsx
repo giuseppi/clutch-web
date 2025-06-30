@@ -1,8 +1,12 @@
 import { Tab } from '@headlessui/react';
 import { EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification, updateEmail, updatePassword, updateProfile } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { FaBasketballBall } from 'react-icons/fa';
+import { FaBasketballBall, FaInfoCircle } from 'react-icons/fa';
+import { IoPerson } from 'react-icons/io5';
+import { MdConstruction, MdEmail } from 'react-icons/md';
+import { RiLockPasswordFill } from 'react-icons/ri';
 import { useSearchParams } from 'react-router-dom';
+import { useTheme } from '../contexts/useTheme';
 import { auth } from '../firebase';
 import { getUserFromSupabase, updateUserProfile } from '../services/userService';
 
@@ -23,6 +27,9 @@ const Account = () => {
     confirmPassword: '',
   });
   const [showPasswordForm, setShowPasswordForm] = useState(false);
+
+  const { theme } = useTheme();
+  const iconColor = theme === 'dark' ? '#fff' : '#000';
 
   useEffect(() => {
     if (user) {
@@ -180,7 +187,13 @@ const Account = () => {
       {/* Profile Section */}
       <div className="account-section">
         <div className="section-header">
-          <h2 className="section-title">Profile Information</h2>
+          <h2
+            className="section-title"
+            style={{ display: 'flex', alignItems: 'center', gap: 8 }}
+          >
+            <IoPerson style={{ color: iconColor, width: 18, height: 18 }} />
+            Profile Information
+          </h2>
           <p className="section-description">Update your display name and personal details.</p>
         </div>
 
@@ -244,8 +257,14 @@ const Account = () => {
       {/* Email Section */}
       <div className="account-section">
         <div className="section-header">
-          <h2 className="section-title">Email Address</h2>
-          <p className="section-description">Change your email address and verification status.</p>
+          <h2
+            className="section-title"
+            style={{ display: 'flex', alignItems: 'center', gap: 8 }}
+          >
+            <MdEmail style={{ color: iconColor, width: 18, height: 18 }} />
+            Email Address
+          </h2>
+          <p className="section-description">Change your email address and verify it.</p>
         </div>
 
         <form
@@ -284,7 +303,13 @@ const Account = () => {
       {/* Password Section */}
       <div className="account-section">
         <div className="section-header">
-          <h2 className="section-title">Password</h2>
+          <h2
+            className="section-title"
+            style={{ display: 'flex', alignItems: 'center', gap: 8 }}
+          >
+            <RiLockPasswordFill style={{ color: iconColor, width: 18, height: 18 }} />
+            Password
+          </h2>
           <p className="section-description">Change your account password securely.</p>
         </div>
 
@@ -377,7 +402,13 @@ const Account = () => {
       {/* Account Info Section */}
       <div className="account-section">
         <div className="section-header">
-          <h2 className="section-title">Account Information</h2>
+          <h2
+            className="section-title"
+            style={{ display: 'flex', alignItems: 'center', gap: 8 }}
+          >
+            <FaInfoCircle style={{ color: iconColor, width: 18, height: 18 }} />
+            Account Information
+          </h2>
           <p className="section-description">View your account details and metadata.</p>
         </div>
 
@@ -413,7 +444,10 @@ const Account = () => {
           <p className="section-description">View your account usage and activity metrics.</p>
         </div>
         <div className="coming-soon">
-          <p>🚧 &nbsp;Statistics feature coming soon. This will display your usage data and activity metrics.</p>
+          <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <MdConstruction style={{ color: '#FFB300', width: 24, height: 24 }} />
+            Statistics feature coming soon. This will display your usage data and activity metrics.
+          </p>
         </div>
       </div>
 
@@ -423,7 +457,10 @@ const Account = () => {
           <p className="section-description">Track your recent activities and engagement.</p>
         </div>
         <div className="coming-soon">
-          <p>🚧 &nbsp;Activity tracking feature coming soon. This will show your recent interactions and engagement metrics.</p>
+          <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <MdConstruction style={{ color: '#FFB300', width: 24, height: 24 }} />
+            Activity tracking feature coming soon. This will show your recent interactions and engagement metrics.
+          </p>
         </div>
       </div>
 
@@ -433,7 +470,10 @@ const Account = () => {
           <p className="section-description">Monitor your account performance and trends.</p>
         </div>
         <div className="coming-soon">
-          <p>🚧 &nbsp;Performance analytics feature coming soon. This will provide detailed insights into your account performance.</p>
+          <p style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <MdConstruction style={{ color: '#FFB300', width: 24, height: 24 }} />
+            Performance analytics feature coming soon. This will provide detailed insights into your account performance.
+          </p>
         </div>
       </div>
     </>

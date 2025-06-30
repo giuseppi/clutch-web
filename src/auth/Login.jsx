@@ -140,7 +140,7 @@ const Login = () => {
                 <div className="auth-feature-icon">
                   <FaPeopleGroup
                     style={{
-                      color: theme === 'dark' ? 'white' : '#000',
+                      color: '#FF6B35',
                       width: 24,
                       height: 24,
                       display: 'block',

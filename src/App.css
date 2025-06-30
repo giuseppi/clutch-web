@@ -65,6 +65,12 @@
   --success: var(--light-success);
   --error: var(--light-error);
   --warning: var(--light-warning);
+
+  /* New variables for tab styles */
+  --tab-color: #64748b;
+  --tab-hover-color: #000;
+  --tab-active-color: #000;
+  --tab-active-underline: #000;
 }
 
 /* Dark theme class */
@@ -95,6 +101,12 @@
   /* Dark theme gradients and shadows */
   --gradient-primary: var(--gradient-secondary);
   --shadow-primary: var(--shadow-secondary);
+
+  /* New variables for tab styles */
+  --tab-color: #c0c0c0;
+  --tab-hover-color: #fff;
+  --tab-active-color: #fff;
+  --tab-active-underline: #fff;
 }
 
 /* Global Styles */
@@ -2035,24 +2047,24 @@ body {
   background: transparent;
   border: none;
   border-bottom: 2px solid transparent;
-  color: var(--text-secondary);
+  color: var(--tab-color);
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: color 0.3s, border-color 0.3s, background-color 0.3s;
   position: relative;
   outline: none;
 }
 
 .tab-button:hover {
-  color: var(--text-primary);
-  background: var(--bg-secondary);
+  color: var(--tab-hover-color);
+  background: transparent;
 }
 
 .tab-button.active,
 .tab-button[aria-selected='true'] {
-  color: white;
-  border-bottom-color: transparent;
+  color: var(--tab-active-color);
+  border-bottom-color: var(--tab-active-underline);
   background: transparent;
 }
 
@@ -2064,21 +2076,31 @@ body {
   left: 0;
   right: 0;
   height: 2px;
-  background: white;
+  background: var(--tab-active-underline);
   animation: slideIn 0.3s ease;
 }
 
-@keyframes slideIn {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
-.tab-button:focus {
+/* Dark mode tab styles */
+[data-theme='dark'] .tab-button {
+  color: var(--tab-color);
+  background: transparent;
+  border-bottom: 2px solid transparent;
+  transition: color 0.3s, border-color 0.3s, background-color 0.3s;
   outline: none;
+}
+[data-theme='dark'] .tab-button:hover {
+  color: var(--tab-hover-color);
+  background: transparent;
+}
+[data-theme='dark'] .tab-button.active,
+[data-theme='dark'] .tab-button[aria-selected='true'] {
+  color: var(--tab-active-color);
+  border-bottom-color: var(--tab-active-underline);
+  background: transparent;
+}
+[data-theme='dark'] .tab-button.active::after,
+[data-theme='dark'] .tab-button[aria-selected='true']::after {
+  background: var(--tab-active-underline);
 }
 
 .tab-content {
@@ -2436,4 +2458,15 @@ body {
 /* Prevent body scroll when mobile menu is open */
 body.mobile-menu-open {
   overflow: hidden;
+}
+
+@keyframes slideIn {
+  from {
+    transform: scaleX(0);
+    opacity: 0.5;
+  }
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
 }

@@ -48,7 +48,7 @@ const Home = () => {
       icon: (
         <FaPeopleGroup
           style={{
-            color: theme === 'dark' ? 'white' : '#000',
+            color: '#FF6B35',
             width: 40,
             height: 40,
             margin: '0 auto 20px',

@@ -169,7 +169,7 @@ const Signup = () => {
                 <div className="auth-feature-icon">
                   <FaBoltLightning
                     style={{
-                      color: '#facc15', // yellow-400
+                      color: '#87CEEB', // Lighter, brighter Thor-like blue
                       width: 24,
                       height: 24,
                       display: 'block',
