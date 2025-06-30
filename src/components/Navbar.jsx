@@ -3,7 +3,7 @@ import { Bars3Icon, ChartBarIcon, UserIcon, XMarkIcon } from '@heroicons/react/2
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import React, { useEffect, useRef, useState } from 'react';
 import { FaBasketballBall } from 'react-icons/fa';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/useTheme';
 import { auth } from '../firebase';
 import ThemeToggle from './ThemeToggle';
@@ -194,6 +194,12 @@ const DropdownItem = (
       ...styles.dropdownItem,
       backgroundColor: active ? 'var(--bg-tertiary)' : 'transparent',
     }}
+    onMouseEnter={(e) => {
+      e.target.style.backgroundColor = 'var(--bg-tertiary)';
+    }}
+    onMouseLeave={(e) => {
+      e.target.style.backgroundColor = active ? 'var(--bg-tertiary)' : 'transparent';
+    }}
   >
     <Icon style={styles.dropdownIcon} />
     {children}
@@ -206,6 +212,12 @@ const SignOutButton = ({ active, onClick }) => (
     style={{
       ...styles.signOutButton,
       backgroundColor: active ? 'rgba(239, 68, 68, 0.1)' : 'transparent',
+    }}
+    onMouseEnter={(e) => {
+      e.target.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+    }}
+    onMouseLeave={(e) => {
+      e.target.style.backgroundColor = active ? 'rgba(239, 68, 68, 0.1)' : 'transparent';
     }}
   >
     Sign Out
@@ -231,6 +243,7 @@ const AuthButton = ({ to, children }) => (
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [user, setUser] = useState(auth.currentUser);
   const buttonRef = useRef(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -248,9 +261,14 @@ const Navbar = () => {
   const handleSignOut = async () => {
     try {
       await signOut(auth);
+      navigate('/');
     } catch (error) {
       console.error('Error signing out:', error);
     }
+  };
+
+  const handleNavigation = (path) => {
+    navigate(path);
   };
 
   // Close dropdown when clicking outside
@@ -378,24 +396,48 @@ const Navbar = () => {
                       <div>
                         <Menu.Item>
                           {({ active }) => (
-                            <DropdownItem
-                              to="/account"
-                              icon={UserIcon}
-                              active={active}
+                            <button
+                              onClick={() => handleNavigation('/account')}
+                              style={{
+                                ...styles.dropdownItem,
+                                backgroundColor: active ? 'var(--bg-tertiary)' : 'transparent',
+                                width: '100%',
+                                border: 'none',
+                                cursor: 'pointer',
+                              }}
+                              onMouseEnter={(e) => {
+                                e.target.style.backgroundColor = 'var(--bg-tertiary)';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.target.style.backgroundColor = active ? 'var(--bg-tertiary)' : 'transparent';
+                              }}
                             >
+                              <UserIcon style={styles.dropdownIcon} />
                               Account Settings
-                            </DropdownItem>
+                            </button>
                           )}
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <DropdownItem
-                              to="/account?tab=stats"
-                              icon={ChartBarIcon}
-                              active={active}
+                            <button
+                              onClick={() => handleNavigation('/account?tab=stats')}
+                              style={{
+                                ...styles.dropdownItem,
+                                backgroundColor: active ? 'var(--bg-tertiary)' : 'transparent',
+                                width: '100%',
+                                border: 'none',
+                                cursor: 'pointer',
+                              }}
+                              onMouseEnter={(e) => {
+                                e.target.style.backgroundColor = 'var(--bg-tertiary)';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.target.style.backgroundColor = active ? 'var(--bg-tertiary)' : 'transparent';
+                              }}
                             >
+                              <ChartBarIcon style={styles.dropdownIcon} />
                               Stats
-                            </DropdownItem>
+                            </button>
                           )}
                         </Menu.Item>
                         <div style={styles.separator}></div>

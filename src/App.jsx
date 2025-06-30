@@ -10,6 +10,7 @@ import Account from './components/Account';
 import Contact from './components/Contact';
 import MapComponent from './components/MapComponent';
 import Navbar from './components/Navbar';
+import ProtectedRoute from './components/ProtectedRoute';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { auth } from './firebase';
 
@@ -89,7 +90,11 @@ const AppContent = () => {
           />
           <Route
             path="/account"
-            element={<Account />}
+            element={
+              <ProtectedRoute>
+                <Account />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="/about"

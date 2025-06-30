@@ -1,10 +1,11 @@
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
 
 const Home = () => {
   const [user, setUser] = useState(auth.currentUser);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, setUser);
@@ -14,6 +15,7 @@ const Home = () => {
   const handleSignOut = async () => {
     try {
       await signOut(auth);
+      navigate('/');
     } catch (error) {
       console.error('Error signing out:', error);
     }
