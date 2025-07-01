@@ -1788,7 +1788,7 @@ body {
   border: 1px solid var(--border);
   border-radius: 6px;
   background: var(--bg-secondary);
-  color: var(--google-button-text);
+  color: var(--text-primary);
   font-size: 0.875rem;
   transition: all 0.2s ease;
 }
