@@ -28,8 +28,8 @@ const About = () => {
 
   const missionItems = [
     {
-      title: 'Ranked Matchmaking',
-      description: 'Bring the competitive structure of esports to basketball with skill-based matchmaking and performance tracking.',
+      title: 'Competitive Experience',
+      description: 'Bring the excitement of structured, competitive play to basketball with performance tracking and player stats.',
       icon: <FaMedal style={{ color: '#ef4444', width: 40, height: 40, margin: '0 auto 20px', display: 'block' }} />,
     },
     {
