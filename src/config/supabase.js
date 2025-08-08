@@ -63,6 +63,7 @@ export const getSupabaseWithAuth = async () => {
       global: {
         headers: {
           'Authorization': `Bearer ${idToken}`,
+          'X-Firebase-UID': currentUser.uid, // Add Firebase UID header
           'X-Client-Info': 'clutch-web',
         },
       },

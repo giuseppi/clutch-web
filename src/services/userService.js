@@ -1,4 +1,5 @@
 import { supabase } from '../config/supabase';
+import { getSupabaseWithAuth } from '../config/supabase';
 
 /**
  * Create user profile in Supabase after Firebase authentication
@@ -11,6 +12,9 @@ export const createUserProfile = async (firebaseUser) => {
   console.log('👤 User display name:', firebaseUser.displayName);
 
   try {
+    // Use authenticated Supabase client
+    const supabase = await getSupabaseWithAuth();
+
     console.log('🔗 Using regular Supabase client...');
 
     // Check if user profile already exists
