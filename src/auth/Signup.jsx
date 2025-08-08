@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import GoogleLoginButton from '../components/GoogleButton.jsx';
 import { useTheme } from '../contexts/useTheme';
 import { auth } from '../firebase';
+import { createUserProfile, logSessionActivity } from '../services/userService.js';
 
 const Signup = () => {
   const [email, setEmail] = useState('');
@@ -33,7 +34,22 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      // Create user in Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Create user profile in Supabase
+      const { error: profileError } = await createUserProfile(user);
+
+      if (profileError) {
+        console.error('Error creating user profile:', profileError);
+        // Don't fail the signup if profile creation fails, but log it
+        // The user can still use the app, and we can retry profile creation later
+      }
+
+      // Log login activity (signup counts as first login)
+      await logSessionActivity(user.uid, 'login');
+
       navigate('/');
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {

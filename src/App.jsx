@@ -11,6 +11,7 @@ import Contact from './components/Contact';
 import MapComponent from './components/MapComponent';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
+import SessionTracker from './components/SessionTracker';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { auth } from './firebase';
 
@@ -107,6 +108,14 @@ const AppContent = () => {
           <Route
             path="/map"
             element={<MapComponent />}
+          />
+          <Route
+            path="/sessions"
+            element={
+              <ProtectedRoute>
+                <SessionTracker />
+              </ProtectedRoute>
+            }
           />
           <Route
             path="*"

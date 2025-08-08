@@ -6,6 +6,7 @@ import { FaBasketballBall } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../contexts/useTheme';
 import { auth } from '../firebase';
+import { logSessionActivity } from '../services/userService';
 import ThemeToggle from './ThemeToggle';
 
 // Reusable style objects
@@ -265,6 +266,11 @@ const Navbar = () => {
 
   const handleSignOut = async () => {
     try {
+      // Log logout activity before signing out
+      if (user) {
+        await logSessionActivity(user.uid, 'logout');
+      }
+
       await signOut(auth);
       navigate('/');
     } catch (error) {
@@ -442,6 +448,29 @@ const Navbar = () => {
                             >
                               <ChartBarIcon style={styles.dropdownIcon} />
                               Stats
+                            </button>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              onClick={() => handleNavigation('/sessions')}
+                              style={{
+                                ...styles.dropdownItem,
+                                backgroundColor: active ? 'var(--bg-tertiary)' : 'transparent',
+                                width: '100%',
+                                border: 'none',
+                                cursor: 'pointer',
+                              }}
+                              onMouseEnter={(e) => {
+                                e.target.style.backgroundColor = 'var(--bg-tertiary)';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.target.style.backgroundColor = active ? 'var(--bg-tertiary)' : 'transparent';
+                              }}
+                            >
+                              <UserIcon style={styles.dropdownIcon} />
+                              Sessions
                             </button>
                           )}
                         </Menu.Item>

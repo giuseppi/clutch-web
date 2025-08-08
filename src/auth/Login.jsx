@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import GoogleLoginButton from '../components/GoogleButton.jsx';
 import { useTheme } from '../contexts/useTheme';
 import { auth } from '../firebase';
+import { logSessionActivity } from '../services/userService';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -22,7 +23,12 @@ const Login = () => {
     setLoading(true);
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Log login activity
+      await logSessionActivity(user.uid, 'login');
+
       navigate('/');
     } catch (error) {
       setError('Failed to log in. Please check your credentials.');

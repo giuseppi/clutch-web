@@ -8,7 +8,7 @@ import { RiLockPasswordFill } from 'react-icons/ri';
 import { useSearchParams } from 'react-router-dom';
 import { useTheme } from '../contexts/useTheme';
 import { auth } from '../firebase';
-import { getUserFromSupabase, updateUserProfile } from '../services/userService';
+import { getUserProfile, updateUserProfile } from '../services/userService';
 
 const Account = () => {
   const user = auth.currentUser;
@@ -36,14 +36,28 @@ const Account = () => {
       const loadUserData = async () => {
         try {
           // Load user data from Supabase
-          const supabaseUser = await getUserFromSupabase(user.uid);
+          const { data: supabaseUser, error } = await getUserProfile(user.uid);
+
+          if (error) {
+            console.error('Error loading user data:', error);
+            // Fallback to Firebase display name parsing
+            const displayNameParts = user.displayName ? user.displayName.split(' ') : ['', ''];
+            setFormData((prev) => ({
+              ...prev,
+              displayName: user.displayName || '',
+              firstName: displayNameParts[0] || '',
+              lastName: displayNameParts.slice(1).join(' ') || '',
+              email: user.email || '',
+            }));
+            return;
+          }
 
           const displayNameParts = user.displayName ? user.displayName.split(' ') : ['', ''];
           setFormData((prev) => ({
             ...prev,
             displayName: user.displayName || '',
-            firstName: supabaseUser?.first_name || displayNameParts[0] || '',
-            lastName: supabaseUser?.last_name || displayNameParts.slice(1).join(' ') || '',
+            firstName: supabaseUser?.display_name?.split(' ')[0] || displayNameParts[0] || '',
+            lastName: supabaseUser?.display_name?.split(' ').slice(1).join(' ') || displayNameParts.slice(1).join(' ') || '',
             email: user.email || '',
           }));
         } catch (error) {
@@ -98,11 +112,14 @@ const Account = () => {
         photoURL: user.photoURL,
       });
 
-      // Update first and last names in Supabase
-      await updateUserProfile(user.uid, {
-        first_name: formData.firstName,
-        last_name: formData.lastName,
+      // Update display name in Supabase
+      const { error } = await updateUserProfile(user.uid, {
+        display_name: formData.displayName,
       });
+
+      if (error) {
+        console.error('Error updating Supabase profile:', error);
+      }
 
       showMessage('Profile updated successfully!');
     } catch (error) {

@@ -2,6 +2,7 @@ import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
+import { createUserProfile, logSessionActivity } from '../services/userService.js';
 
 // Encapsulate Google login logic in a class for OOP clarity
 class GoogleAuthHandler {
@@ -41,9 +42,21 @@ const GoogleLoginButton = () => {
     const googleHandler = new GoogleAuthHandler(auth, provider);
 
     try {
-      await googleHandler.signIn();
-      // If you have syncUserToSupabase, call it here
-      // await syncUserToSupabase(user);
+      const result = await googleHandler.signIn();
+      const user = result.user;
+
+      // Create user profile in Supabase
+      const { error: profileError } = await createUserProfile(user);
+
+      if (profileError) {
+        console.error('Error creating user profile:', profileError);
+        // Don't fail the login if profile creation fails, but log it
+        // The user can still use the app, and we can retry profile creation later
+      }
+
+      // Log login activity
+      await logSessionActivity(user.uid, 'login');
+
       navigate('/');
     } catch (error) {
       if (error.code === 'auth/popup-closed-by-user') {
